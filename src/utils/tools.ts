@@ -157,17 +157,17 @@ export function firstUpperCase(str: string): string {
  * @param modules 
  * @returns 
  */
-export function loadStorePage(modules: IObject<any>): IObject<any> {
-    const page: IObject<any> = {}
-    Object.keys(modules).forEach(key => {
-        const nameMatch = key.substr(2).replace('.ts', '')
-            .split('/')
-            .map(v => firstUpperCase(v))
-            .join('')
-        page[nameMatch] = modules[key].default
-    })
-    return page
-}
+// export function loadStorePage(modules: IObject<any>): IObject<any> {
+//     const page: IObject<any> = {}
+//     Object.keys(modules).forEach(key => {
+//         const nameMatch = key.substr(2).replace('.ts', '')
+//             .split('/')
+//             .map(v => firstUpperCase(v))
+//             .join('')
+//         page[nameMatch] = modules[key].default
+//     })
+//     return page
+// }
 
 /**
  * 两次编码url
