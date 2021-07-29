@@ -137,20 +137,20 @@ export interface IList {
 export type IListType = 'default' | 'card'
 
 export default defineComponent({
-  name: 'List',
-  props: {
-    data: {
-      type: Array as PropType<Array<IList>>,
-      default: () => []
+    name: 'List',
+    props: {
+        data: {
+            type: Array as PropType<Array<IList>>,
+            default: () => []
+        },
+        type: {
+            type: String as PropType<IListType>,
+            default: 'default'
+        }
     },
-    type: {
-      type: String as PropType<IListType>,
-      default: 'default'
+    setup() {
+        return {}
     }
-  },
-  setup () {
-    return {}
-  }
 })
 </script>
 

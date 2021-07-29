@@ -32,51 +32,51 @@ import { IMenubarList } from '@/type/layout'
 
 // 过滤隐藏的菜单，并提取单条的子菜单
 const filterMenubar = (menuList:IMenubarList[]) => {
-  const f = (menuList:IMenubarList[]) => {
-    const arr:IMenubarList[] = []
-    menuList.filter(v => !v.meta.hidden).forEach(v => {
-      const child = v.children && v.children.filter(v => !v.meta.hidden)
-      let currentItem = v
-      if (!v.meta.alwaysShow && child && child.length === 1) {
-        [currentItem] = child
-      }
-      arr.push(currentItem)
-      if (currentItem.children && currentItem.children.length > 0) {
-        arr[arr.length - 1].children = f(currentItem.children)
-      }
-    })
-    return arr
-  }
-  return f(menuList)
+    const f = (menuList:IMenubarList[]) => {
+        const arr:IMenubarList[] = []
+        menuList.filter(v => !v.meta.hidden).forEach(v => {
+            const child = v.children && v.children.filter(v => !v.meta.hidden)
+            let currentItem = v
+            if (!v.meta.alwaysShow && child && child.length === 1) {
+                [currentItem] = child
+            }
+            arr.push(currentItem)
+            if (currentItem.children && currentItem.children.length > 0) {
+                arr[arr.length - 1].children = f(currentItem.children)
+            }
+        })
+        return arr
+    }
+    return f(menuList)
 }
 
 export default defineComponent({
-  name: 'LayoutMenubar',
-  components: {
-    MenubarItem
-  },
-  setup () {
-    const store = useStore()
-    const route = useRoute()
-    const router = useRouter()
-    const { menubar } = store.state.layout
+    name: 'LayoutMenubar',
+    components: {
+        MenubarItem
+    },
+    setup() {
+        const store = useStore()
+        const route = useRoute()
+        const router = useRouter()
+        const { menubar } = store.state.layout
 
-    const filterMenubarData = filterMenubar(menubar.menuList)
+        const filterMenubarData = filterMenubar(menubar.menuList)
 
-    const activeMenu = computed(() => {
-      if (route.meta.activeMenu) return route.meta.activeMenu
-      return route.path
-    })
-    const onOpenChange = (d: any) => {
-      router.push({ path: d })
-      menubar.status === 2 && store.commit('layout/changeCollapsed')
+        const activeMenu = computed(() => {
+            if (route.meta.activeMenu) return route.meta.activeMenu
+            return route.path
+        })
+        const onOpenChange = (d: any) => {
+            router.push({ path: d })
+            menubar.status === 2 && store.commit('layout/changeCollapsed')
+        }
+        return {
+            menubar,
+            filterMenubarData,
+            activeMenu,
+            onOpenChange
+        }
     }
-    return {
-      menubar,
-      filterMenubarData,
-      activeMenu,
-      onOpenChange
-    }
-  }
 })
 </script>

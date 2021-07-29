@@ -35,15 +35,15 @@ import { defineComponent, PropType } from 'vue'
 import { IMenubarList } from '@/type/layout'
 
 export default defineComponent({
-  name: 'MenubarItem',
-  props: {
-    menuList: {
-      type: Object as PropType<IMenubarList>,
-      default: () => { return {} }
+    name: 'MenubarItem',
+    props: {
+        menuList: {
+            type: Object as PropType<IMenubarList>,
+            default: () => { return {} }
+        }
+    },
+    setup() {
+        return {}
     }
-  },
-  setup () {
-    return {}
-  }
 })
 </script>

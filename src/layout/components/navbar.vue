@@ -83,44 +83,44 @@ interface IBreadcrumbList {
 }
 // 面包屑导航
 const breadcrumb = (route: RouteLocationNormalizedLoaded) => {
-  const fn = () => {
-    const breadcrumbList:Array<IBreadcrumbList> = []
-    const notShowBreadcrumbList = ['Dashboard', 'RedirectPage'] // 不显示面包屑的导航
-    if (route.matched[0] && (notShowBreadcrumbList.includes(route.matched[0].name as string))) return breadcrumbList
-    route.matched.forEach(v => {
-      const obj:IBreadcrumbList = {
-        title: v.meta.title as string,
-        path: v.path
-      }
-      breadcrumbList.push(obj)
+    const fn = () => {
+        const breadcrumbList:Array<IBreadcrumbList> = []
+        const notShowBreadcrumbList = ['Dashboard', 'RedirectPage'] // 不显示面包屑的导航
+        if (route.matched[0] && (notShowBreadcrumbList.includes(route.matched[0].name as string))) return breadcrumbList
+        route.matched.forEach(v => {
+            const obj:IBreadcrumbList = {
+                title: v.meta.title as string,
+                path: v.path
+            }
+            breadcrumbList.push(obj)
+        })
+        return breadcrumbList
+    }
+    const data = reactive({
+        breadcrumbList: fn()
     })
-    return breadcrumbList
-  }
-  const data = reactive({
-    breadcrumbList: fn()
-  })
-  watch(() => route.path, () => data.breadcrumbList = fn())
-  return { data }
+    watch(() => route.path, () => data.breadcrumbList = fn())
+    return { data }
 }
 
 export default defineComponent({
-  name: 'LayoutNavbar',
-  components: {
-    Notice
-  },
-  setup () {
-    const store = useStore()
-    const route = useRoute()
-    const changeCollapsed = () => store.commit('layout/changeCollapsed')
-    const logout = () => store.commit('layout/logout')
-    return {
-      menubar: store.state.layout.menubar,
-      userInfo: store.state.layout.userInfo,
-      changeCollapsed,
-      logout,
-      ...breadcrumb(route)
+    name: 'LayoutNavbar',
+    components: {
+        Notice
+    },
+    setup() {
+        const store = useStore()
+        const route = useRoute()
+        const changeCollapsed = () => store.commit('layout/changeCollapsed')
+        const logout = () => store.commit('layout/logout')
+        return {
+            menubar: store.state.layout.menubar,
+            userInfo: store.state.layout.userInfo,
+            changeCollapsed,
+            logout,
+            ...breadcrumb(route)
+        }
     }
-  }
 })
 </script>
 
