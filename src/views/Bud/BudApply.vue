@@ -10,4 +10,3 @@ export default defineComponent({
     name: 'BudApply'
 })
 </script>
-

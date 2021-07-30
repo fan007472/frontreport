@@ -52,39 +52,39 @@ import { useStore } from '@/store/index'
 import { throttle } from '@/utils/tools'
 
 export default defineComponent({
-  name: 'Layout',
-  components: {
-    LayoutContent,
-    LayoutMenubar,
-    LayoutNavbar,
-    LayoutTags,
-    LayoutSideSetting
-  },
-  setup () {
-    const store = useStore()
-    const changeDeviceWidth = () => store.commit('layout/changeDeviceWidth')
-    const changeCollapsed = () => store.commit('layout/changeCollapsed')
-    // const { setting } = store.state.layout
-    // const defaultTheme = ref(setting.color.primary)
+    name: 'Layout',
+    components: {
+        LayoutContent,
+        LayoutMenubar,
+        LayoutNavbar,
+        LayoutTags,
+        LayoutSideSetting
+    },
+    setup() {
+        const store = useStore()
+        const changeDeviceWidth = () => store.commit('layout/changeDeviceWidth')
+        const changeCollapsed = () => store.commit('layout/changeCollapsed')
+        // const { setting } = store.state.layout
+        // const defaultTheme = ref(setting.color.primary)
 
-    store.commit('layout/changeTheme')
+        store.commit('layout/changeTheme')
 
-    onMounted(async () => {
-      changeDeviceWidth()
-      const throttleFn = throttle(300)
-      const throttleF = async function () {
-        await throttleFn()
-        changeDeviceWidth()
-      }
-      window.addEventListener('resize', throttleF, true)
-      // 判断是否修改过主题色
-      //   defaultTheme.value.toLowerCase() == '#409eff'
-    })
-    return {
-      layout: store.state.layout,
-      changeCollapsed
+        onMounted(async() => {
+            changeDeviceWidth()
+            const throttleFn = throttle(300)
+            const throttleF = async function() {
+                await throttleFn()
+                changeDeviceWidth()
+            }
+            window.addEventListener('resize', throttleF, true)
+            // 判断是否修改过主题色
+            //   defaultTheme.value.toLowerCase() == '#409eff'
+        })
+        return {
+            layout: store.state.layout,
+            changeCollapsed
+        }
     }
-  }
 })
 </script>
 

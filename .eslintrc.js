@@ -28,7 +28,6 @@ module.exports = {
     'space-before-blocks': 'error', // 在块之前强制保持一致的间距
     'space-before-function-paren': ['error', 'never'], // 在“ function”定义打开括号之前强制不加空格
     'space-in-parens': ['error', 'never'], // 强制括号左右的不加空格
-    'space-infix-ops': 'error', // 运算符之间留有间距
     'spaced-comment': ['error', 'always'], // 注释间隔
     'template-tag-spacing': ['error', 'always'], // 在模板标签及其文字之间需要空格
     'no-var': 'error',
@@ -48,8 +47,7 @@ module.exports = {
     'no-restricted-syntax': ['error', 'WithStatement', 'BinaryExpression[operator="in"]'], // 禁止with/in语句
     'no-lonely-if': 'error', // 禁止 if 语句作为唯一语句出现在 else 语句块中
     'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }], // 要求方法链中每个调用都有一个换行符
-    // 路径别名设置
-    'no-submodule-imports': ['off', '/@'],
+    'no-submodule-imports': ['off', '/@'],// 路径别名设置
     'no-implicit-dependencies': ['off', ['/@']],
     '@typescript-eslint/no-explicit-any': 'off' // 类型可以使用any
   },

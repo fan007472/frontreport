@@ -3,7 +3,7 @@ import { listToTree } from '@/utils/tools'
 import { store } from '@/store/index'
 
 // 动态路由名称映射表
-const modules = import.meta.glob('../views/**/**.vue')
+const modules = require.context('../views',true,/\.vue/)
 const components:IObject<() => Promise<typeof import('*.vue')>> = {
     Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>
 }

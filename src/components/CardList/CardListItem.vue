@@ -39,24 +39,24 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({
-  name: 'CardListItem',
-  props: {
-    width: {
-      type: String,
-      default: '80px'
+    name: 'CardListItem',
+    props: {
+        width: {
+            type: String,
+            default: '80px'
+        },
+        isRequire: {
+            type: Boolean,
+            default: false
+        },
+        prop: {
+            type: String,
+            default: ''
+        }
     },
-    isRequire: {
-      type: Boolean,
-      default: false
-    },
-    prop: {
-      type: String,
-      default: ''
+    setup() {
+        return {}
     }
-  },
-  setup () {
-    return {}
-  }
 })
 </script>
 

@@ -15,7 +15,7 @@ const getThemeCluster: (theme: string) => string[] = (theme) => {
         let blue = parseInt(color.slice(4, 6), 16)
 
         if (tint === 0) return [red, green, blue].join(',')
-            
+
         red += Math.round(tint * (255 - red))
         green += Math.round(tint * (255 - green))
         blue += Math.round(tint * (255 - blue))
@@ -66,7 +66,6 @@ const getCSSString: (url: string, chalk: Ref<string>) => Promise<void> = (url, c
         xhr.send()
     })
 }
-
 
 // 切换主题色，并记录
 const { setting } = store.state.layout

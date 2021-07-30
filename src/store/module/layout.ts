@@ -1,4 +1,4 @@
-import { login, loginParam, getRouterList, getUser } from '@/api/index'
+import { login, loginParam, getRouterList, getUser } from '@/api/layout/index'
 import { ILayout, IMenubarStatus, ITagsList, IMenubarList, ISetting, IToken } from '@/type/layout'
 import { ActionContext } from 'vuex'
 import router, { routes } from '@/router/index'

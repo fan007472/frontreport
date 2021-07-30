@@ -64,37 +64,37 @@ interface IListItem {
 type IType = 'default' | 'keyvalue'
 
 export default defineComponent({
-  name: 'CardList',
-  props: {
-    type: {
-      type: String as PropType<IType>,
-      default: 'default'
+    name: 'CardList',
+    props: {
+        type: {
+            type: String as PropType<IType>,
+            default: 'default'
+        },
+        listItem: {
+            type: Array as PropType<Array<IListItem>>,
+            default: () => []
+        },
+        title: {
+            type: String,
+            default: '标题'
+        },
+        showHeader: {
+            type: Boolean,
+            default: false
+        },
+        // 是否不换行
+        isNowrap: {
+            type: Boolean,
+            default: true
+        },
+        showListstyle: {
+            type: Boolean,
+            default: true
+        }
     },
-    listItem: {
-      type: Array as PropType<Array<IListItem>>,
-      default: () => []
-    },
-    title: {
-      type: String,
-      default: '标题'
-    },
-    showHeader: {
-      type: Boolean,
-      default: false
-    },
-    // 是否不换行
-    isNowrap: {
-      type: Boolean,
-      default: true
-    },
-    showListstyle: {
-      type: Boolean,
-      default: true
+    setup() {
+        return {}
     }
-  },
-  setup () {
-    return {}
-  }
 })
 </script>
 

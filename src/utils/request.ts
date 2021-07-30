@@ -1,5 +1,5 @@
 import { store } from '@/store/index'
-import axios,{ AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 
 const MybaseURL = 'http://localhost/'

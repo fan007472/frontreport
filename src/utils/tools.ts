@@ -2,7 +2,7 @@ import { ILocalStore } from '@/type/tools'
 import { IMenubarList } from '@/type/layout'
 /**
  * 睡眠函数
- * @param time 
+ * @param time
  */
 export async function sleep(time:number):Promise<void> {
     await new Promise(resolve => {
@@ -15,7 +15,7 @@ export async function sleep(time:number):Promise<void> {
  * @param symbol 金额前面修饰符号，如$,￥
  */
 export function format(num:number|string, symbol = '￥'):string {
-    if(Number.isNaN(Number(num))) return `${symbol}0.00`
+    if (Number.isNaN(Number(num))) return `${symbol}0.00`
     return symbol + (Number(num).toFixed(2))
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
@@ -24,7 +24,7 @@ export function format(num:number|string, symbol = '￥'):string {
  * @param str 金额
  */
 export function unformat(str:string):number|string {
-    const s = str.substr(1).replace(/\,/g, '')
+    const s = str.substr(1).replace(/,/g, '')
     return Number.isNaN(Number(s)) || Number(s) === 0 ? '' : Number(s)
 }
 /**
@@ -50,7 +50,7 @@ export function tableSummaries(param: { columns: any; data: any }):Array<string 
                 }
             }, 0)
             const sum = sums[index]
-            if(typeof sum === 'number') {
+            if (typeof sum === 'number') {
                 sums[index] = format(sum.toFixed(2))
             }
         } else {
@@ -62,10 +62,10 @@ export function tableSummaries(param: { columns: any; data: any }):Array<string 
 }
 
 export function isInput(el: HTMLElement): boolean {
-    return el.nodeName.toLocaleLowerCase() === 'input' 
+    return el.nodeName.toLocaleLowerCase() === 'input'
 }
 export function isTextarea(el: HTMLElement): boolean {
-    return el.nodeName.toLocaleLowerCase() === 'textarea' 
+    return el.nodeName.toLocaleLowerCase() === 'textarea'
 }
 
 /**
@@ -87,7 +87,7 @@ export function setLocal(name:string, data:IObject<any>, pExpires = 1000 * 60 * 
 export async function useLocal(name: string):Promise<ILocalStore> {
     return new Promise((resolve, reject) => {
         const local = getLocal<ILocalStore>(name)
-        if(local.startTime + local.expires < Date.now()) reject(`${name}已超过有效期`)
+        if (local.startTime + local.expires < Date.now()) reject(new Error(`${name}已超过有效期`))
         resolve(local)
     })
 }
@@ -110,13 +110,14 @@ export function throttle(time = 500):()=>Promise<void> {
     let firstTime = true
     return () => {
         return new Promise(resolve => {
-            if(firstTime) {
+            if (firstTime) {
                 resolve()
-                return firstTime = false
+                firstTime = false
+                return firstTime
             }
-            if(timer) return false
+            if (timer) return false
             timer = setTimeout(() => {
-                if(timer) clearTimeout(timer)
+                if (timer) clearTimeout(timer)
                 timer = null
                 resolve()
             }, time)
@@ -132,10 +133,10 @@ export function throttle(time = 500):()=>Promise<void> {
 export function listToTree(data:Array<IMenubarList>, pid: string | number = 1, isChildNull = false):Array<IMenubarList> {
     const d:Array<IMenubarList> = []
     data.forEach(val => {
-        if(val.parentId == pid) {
+        if (val.parentId === pid) {
             const list = listToTree(data, val.id, isChildNull)
             const obj:IMenubarList = { ...val }
-            if(!isChildNull || list.length !== 0) {
+            if (!isChildNull || list.length !== 0) {
                 obj.children = list
             }
             d.push(obj)
@@ -145,8 +146,8 @@ export function listToTree(data:Array<IMenubarList>, pid: string | number = 1, i
 }
 /**
   * 字符串首字母大写
-  * @param str 
-  * @returns 
+  * @param str
+  * @returns
   */
 export function firstUpperCase(str: string): string {
     return str.replace(/^\S/, s => s.toUpperCase())
@@ -154,8 +155,8 @@ export function firstUpperCase(str: string): string {
 
 /**
  * 加载store状态
- * @param modules 
- * @returns 
+ * @param modules
+ * @returns
  */
 // export function loadStorePage(modules: IObject<any>): IObject<any> {
 //     const page: IObject<any> = {}
@@ -171,8 +172,8 @@ export function firstUpperCase(str: string): string {
 
 /**
  * 两次编码url
- * @param url 
- * @returns 
+ * @param url
+ * @returns
  */
 export function decodeUrl(url: string): string {
     return decodeURIComponent(decodeURIComponent(url))
@@ -180,8 +181,8 @@ export function decodeUrl(url: string): string {
 
 /**
  * 两次解码url
- * @param url 
- * @returns 
+ * @param url
+ * @returns
  */
 export function encodeUrl(url: string): string {
     return encodeURIComponent(encodeURIComponent(url))

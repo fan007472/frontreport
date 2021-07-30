@@ -173,7 +173,7 @@ import CardListItem from '@/components/CardList/CardListItem.vue'
 import { getTableList, ITag } from '@/api/components/index'
 import { format, tableSummaries } from '@/utils/tools'
 import { validate } from '@/utils/formExtend'
-import { IRenderTableList } from '@/type/views/Components/TableSearchTest'
+import { IRenderTableList } from '@/type/TableSearchTest'
 
 interface ISearchForm {
     date: string
