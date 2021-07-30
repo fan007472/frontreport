@@ -14,7 +14,7 @@ router.beforeEach(async(to, from) => {
     const { layout } = store.state
     // 修改页面title
     const reg = new RegExp(/^(.+)(\s\|\s.+)$/)
-    const appTitle = process.env.VUE_APP_TITLE
+    const appTitle: any = process.env.VUE_APP_TITLE
     document.title = appTitle.match(reg) ? appTitle.replace(reg, `${to.meta.title}$2`) : `${to.meta.title} | ${appTitle}`
     // 判断当前是否在登陆页面
     if (to.path.toLocaleLowerCase() === loginRoutePath.toLocaleLowerCase()) {

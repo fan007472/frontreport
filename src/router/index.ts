@@ -1,27 +1,31 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Login from "@/views/Login.vue";
-import M404 from "@/views/Error/404.vue";
-import LayoutBlank from "@/views/blank.vue";
-import Layout from "@/layout/index.vue";
-import Redirect from "@/layout/redirect.vue"
+
+const components:IObject<() => Promise<typeof import('*.vue')>> = {
+  Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+  Redirect: (() => import('@/layout/redirect.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+  LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+  404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+  Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+  Login: (() => import('/@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>
+}
 
 export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Home",
-    component: Login
+    component: components['Login']
   },
   {
     name: "ErrorPage",
     path: "/ErrorPage",
     meta: { title: "错误页面", hidden: true, icon: "el-icon-eleme" },
-    component: LayoutBlank,
+    component: components['LayoutBlank'],
     redirect: "/Error/404",
     children: [
       {
         name: "404",
         path: "/Error/404",
-        component: M404,
+        component: components['404'],
         meta: { title: "404", icon: "el-icon-s-tools" }
       }
     ]
@@ -29,7 +33,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     name: 'RedirectPage',
     path: '/redirect',
-    component : Layout,
+    component : components['Layout'],
     meta: { title: '重定向页面', icon: 'el-icon-eleme', hidden: true },
     children: [
         {
@@ -39,14 +43,14 @@ export const routes: Array<RouteRecordRaw> = [
                 title: '重定向页面',
                 icon: ''
             },
-            component: Redirect
+            component: components['Redirect'],
         }
     ]
 },
   {
     name: "Login",
     path: "/Login",
-    component: Login,
+    component: components['Login'],
     meta: { title: "登录", icon: "el-icon-eleme", hidden: true }
   }
 ];
