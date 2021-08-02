@@ -3,7 +3,7 @@ import { listToTree } from '@/utils/tools'
 import { store } from '@/store/index'
 
 // 动态路由名称映射表
-const modules = require.context('@/views', true, /\.vue/)
+const modules = require.context('../views', true, /\*.vue/)
 const components:IObject<() => Promise<typeof import('*.vue')>> = {
     Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>
 }
@@ -14,7 +14,7 @@ modules.keys().forEach(key => {
     const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
     let name = indexMatch ? indexMatch[1] : nameMatch[1];
     [name] = name.split('/').splice(-1)
-    components[name] = modules.resolve(model.keys) as () => Promise<typeof import('*.vue')>
+    components[name] = modules(key) as () => Promise<typeof import('*.vue')>
 })
 
 const asyncRouter:IMenubarList[] = [

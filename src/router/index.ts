@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { IMenubarList } from '@/type/layout'
 
 const components:IObject<() => Promise<typeof import('*.vue')>> = {
   Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
@@ -6,13 +7,14 @@ const components:IObject<() => Promise<typeof import('*.vue')>> = {
   LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>,
   404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
   Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-  Login: (() => import('/@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>
+  Login: (() => import('@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>
 }
 
-export const routes: Array<RouteRecordRaw> = [
+export const allowRouter: Array<IMenubarList> = [
   {
     path: "/",
     name: "Home",
+    meta: { title: '仪表盘', icon: 'el-icon-eleme' },
     component: components['Login']
   },
   {
@@ -57,7 +59,7 @@ export const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes: allowRouter as RouteRecordRaw[]
 });
 
 export default router;

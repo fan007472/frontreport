@@ -1,7 +1,7 @@
 import { login, loginParam, getRouterList, getUser } from '@/api/layout/index'
 import { ILayout, IMenubarStatus, ITagsList, IMenubarList, ISetting, IToken } from '@/type/layout'
 import { ActionContext } from 'vuex'
-import router, { routes } from '@/router/index'
+import router, { allowRouter } from '@/router/index'
 import { generatorDynamicRouter } from '@/router/asyncRouter'
 // import changeTheme from '@/utils/changeTheme'
 import { setLocal, useLocal, getLocal, decodeUrl } from '@/utils/tools'
@@ -131,7 +131,7 @@ const mutations = {
         state.menubar.menuList = data
     },
     concatAllowRoutes(state: ILayout):void {
-        routes.reverse().forEach(v => state.menubar.menuList.unshift(v))
+        allowRouter.reverse().forEach(v => state.menubar.menuList.unshift(v))
     },
     getUser(state: ILayout, userInfo:{name:string, role: Array<string>}):void {
         state.userInfo.name = userInfo.name
