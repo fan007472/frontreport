@@ -12,6 +12,7 @@ module.exports = {
     ecmaVersion: 2020
   },
   rules: {
+    "no-return-assign": "error", //禁止在return语句中使用赋值语句
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/singleline-html-element-content-newline': 'off',
@@ -51,11 +52,14 @@ module.exports = {
     'no-implicit-dependencies': ['off', ['/@']],
     '@typescript-eslint/no-explicit-any': 'off' // 类型可以使用any
   },
+  "globals":{
+    "IState": true
+  },
   overrides: [
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
         mocha: true

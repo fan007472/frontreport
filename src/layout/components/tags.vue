@@ -15,11 +15,7 @@
                 >
                     <i v-if='v.isActive' class='rounded-full inline-block w-2 h-2 bg-white -ml-1 mr-1'/>
                     <router-link :to='v.path'>{{ v.title }}</router-link>
-                    <i
-                        v-if='tagsList.length>1'
-                        class='el-icon-close text-xs hover:bg-gray-300 hover:text-white rounded-full leading-3 p-0.5 ml-1 -mr-1'
-                        @click='removeTagNav(v)'
-                    />
+                    <i v-if='tagsList.length>1' class='el-icon-close text-xs hover:bg-gray-300 hover:text-white rounded-full leading-3 p-0.5 ml-1 -mr-1' @click='removeTagNav(v)'/>
                 </span>
             </div>
         </el-scrollbar>
@@ -90,7 +86,7 @@ const rightMenu = (store:Store<IState>, router: Router, route: RouteLocationNorm
         }
     }
     const closeOther = () => store.commit('layout/removeOtherTagNav', currentRightTags)
-    document.body.addEventListener('click', () => menuPos.display = 'none')
+    document.body.addEventListener('click', () => { menuPos.display = 'none'; return menuPos })
     return { menuPos, contextRightMenu, refresh, rightMenuEl, closeOther }
 }
 

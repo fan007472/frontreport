@@ -45,9 +45,9 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     const { data } = response
     loading.close()
-    if(data.Code !== 200) {
+    if (data.Code !== 200) {
         let title = '请求失败'
-        if(data.Code === 401) {
+        if (data.Code === 401) {
             if (store.state.layout.token.ACCESS_TOKEN) {
                 store.commit('layout/logout')
             }

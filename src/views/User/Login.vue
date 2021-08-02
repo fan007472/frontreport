@@ -17,11 +17,6 @@
                 <el-button type='primary' @click='onSubmit'> 登录 </el-button>
                 <el-button @click='resetFields(ruleForm)'> 重置 </el-button>
             </el-form-item>
-            <el-form-item>
-                <p class='leading-5'>账号: admin 密码: admin</p>
-                <p class='leading-5'>账号: dev 密码: dev</p>
-                <p class='leading-5'>账号: test 密码: test</p>
-            </el-form-item>
         </el-form>
     </div>
 </template>
