@@ -44,29 +44,29 @@ const state:ILayout = {
 }
 const mutations = {
     changeCollapsed(state: ILayout):void {
-        if(state.menubar.isPhone) {
+        if (state.menubar.isPhone) {
             state.menubar.status = state.menubar.status === IMenubarStatus.PHN ? IMenubarStatus.PHE : IMenubarStatus.PHN
-        }else{
+        } else {
             state.menubar.status = state.menubar.status === IMenubarStatus.PCN ? IMenubarStatus.PCE : IMenubarStatus.PCN
         }
     },
     changeDeviceWidth(state: ILayout):void {
-        if(document.body.offsetWidth < 768) {
+        if (document.body.offsetWidth < 768) {
             state.menubar.isPhone = true
             state.menubar.status = IMenubarStatus.PHN
-        }else{
+        } else {
             state.menubar.isPhone = false
             state.menubar.status = IMenubarStatus.PCE
         }
     },
     // 切换导航，记录打开的导航
     changeTagNavList(state: ILayout, cRouter:RouteLocationNormalizedLoaded):void {
-        if(!state.setting.showTags) return // 判断是否开启多标签页
-        if(cRouter.meta.hidden && !cRouter.meta.activeMenu) return // 隐藏的菜单如果不是子菜单则不添加到标签
+        if (!state.setting.showTags) return // 判断是否开启多标签页
+        if (cRouter.meta.hidden && !cRouter.meta.activeMenu) return // 隐藏的菜单如果不是子菜单则不添加到标签
         const index = state.tags.tagsList.findIndex(v => v.path === cRouter.path)
         state.tags.tagsList.forEach(v => v.isActive = false)
         // 判断页面是否打开过
-        if(index !== -1) {
+        if (index !== -1) {
             state.tags.tagsList[index].isActive = true
             return
         }
@@ -80,13 +80,13 @@ const mutations = {
     },
     removeTagNav(state: ILayout, obj:{tagsList:ITagsList, cPath: string}):void {
         const index = state.tags.tagsList.findIndex(v => v.path === obj.tagsList.path)
-        if(state.tags.tagsList[index].path === obj.cPath) {
+        if (state.tags.tagsList[index].path === obj.cPath) {
             state.tags.tagsList.splice(index, 1)
             const i = index === state.tags.tagsList.length ? index - 1 : index
             state.tags.tagsList[i].isActive = true
             mutations.removeCachedViews(state, { name: obj.tagsList.name, index })
             router.push({ path: state.tags.tagsList[i].path })
-        }else{
+        } else {
             state.tags.tagsList.splice(index, 1)
             mutations.removeCachedViews(state, { name: obj.tagsList.name, index })
         }
@@ -106,14 +106,14 @@ const mutations = {
     },
     // 添加缓存页面
     addCachedViews(state: ILayout, obj: {name: string, noCache: boolean}):void {
-        if(!state.setting.showTags) return // 判断是否开启多标签页
-        if(obj.noCache || state.tags.cachedViews.includes(obj.name)) return
+        if (!state.setting.showTags) return // 判断是否开启多标签页
+        if (obj.noCache || state.tags.cachedViews.includes(obj.name)) return
         state.tags.cachedViews.push(obj.name)
     },
     // 删除缓存页面
     removeCachedViews(state: ILayout, obj: { name: string, index: number }):void {
         // 判断标签页是否还有该页面
-        if(state.tags.tagsList.map(v => v.name).includes(obj.name)) return
+        if (state.tags.tagsList.map(v => v.name).includes(obj.name)) return
         state.tags.cachedViews.splice(obj.index, 1)
     },
     login(state: ILayout, token = ''):void {
@@ -139,8 +139,8 @@ const mutations = {
     },
     // 修改主题
     // changeTheme(state: ILayout, num:number):void {
-    //     if(num === state.setting.theme) return
-    //     if(typeof num !== 'number') num = state.setting.theme
+    //     if (num === state.setting.theme) return
+    //     if (typeof num !== 'number') num = state.setting.theme
     //     changeTheme(num)
     //     state.setting.theme = num
     //     localStorage.setItem('setting', JSON.stringify(state.setting))
@@ -149,24 +149,24 @@ const mutations = {
         state.setting.showTags = showTags
         localStorage.setItem('setting', JSON.stringify(state.setting))
 
-        if(showTags) {
+        if (showTags) {
             const index = state.tags.tagsList.findIndex(v => v.path === router.currentRoute.value.path)
-            if(index !== -1) {
+            if (index !== -1) {
                 state.tags.tagsList.forEach(v => v.isActive = false)
                 state.tags.tagsList[index].isActive = true
-            }else{
+            } else {
                 mutations.changeTagNavList(state, router.currentRoute.value)
             }
         }
     }
 }
 const actions = {
-    async login(context:ActionContext<ILayout,IState>, param: loginParam):Promise<void> {
+    async login(context:ActionContext<ILayout, IState>, param: loginParam):Promise<void> {
         const res = await login(param)
         const token = res.data.Data
         context.commit('login', token)
     },
-    async getUser(context:ActionContext<ILayout,IState>):Promise<void> {
+    async getUser(context:ActionContext<ILayout, IState>):Promise<void> {
         const res = await getUser()
         const userInfo = res.data.Data
         context.commit('getUser', userInfo)

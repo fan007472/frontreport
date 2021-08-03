@@ -12,7 +12,7 @@ module.exports = {
     ecmaVersion: 2020
   },
   rules: {
-    "no-return-assign": "error", //禁止在return语句中使用赋值语句
+    "no-return-assign": 1, //禁止在return语句中使用赋值语句
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/singleline-html-element-content-newline': 'off',
