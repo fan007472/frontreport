@@ -75,25 +75,25 @@ import { useStore } from '@/store/index'
 import LayoutTheme from '@/layout/components/theme.vue'
 
 export default defineComponent({
-  name: 'LayoutSideSetting',
-  components: {
-    LayoutTheme
-  },
-  setup () {
-    const store = useStore()
-    const drawer = ref(false)
-    const changeTheme = (index:number) => store.commit('layout/changeTheme', index)
-    const showTags = ref(store.state.layout.setting.showTags)
+    name: 'LayoutSideSetting',
+    components: {
+        LayoutTheme
+    },
+    setup() {
+        const store = useStore()
+        const drawer = ref(false)
+        const changeTheme = (index:number) => store.commit('layout/changeTheme', index)
+        const showTags = ref(store.state.layout.setting.showTags)
 
-    watch(() => showTags.value, () => store.commit('layout/changeTagsSetting', showTags.value))
+        watch(() => showTags.value, () => store.commit('layout/changeTagsSetting', showTags.value))
 
-    return {
-      drawer,
-      theme,
-      changeTheme,
-      layout: store.state.layout,
-      showTags
+        return {
+            drawer,
+            theme,
+            changeTheme,
+            layout: store.state.layout,
+            showTags
+        }
     }
-  }
 })
 </script>
