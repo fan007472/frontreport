@@ -14,14 +14,14 @@ import { store } from '@/store/index'
 import changeThemeColor from '@/utils/changeThemeColor'
 
 export default defineComponent({
-  name: 'LayoutTheme',
-  setup () {
-    const { setting } = store.state.layout
-    const defaultTheme = ref(setting.color.primary)
-    return {
-      defaultTheme,
-      changeThemeColor
+    name: 'LayoutTheme',
+    setup() {
+        const { setting } = store.state.layout
+        const defaultTheme = ref(setting.color.primary)
+        return {
+            defaultTheme,
+            changeThemeColor
+        }
     }
-  }
 })
 </script>

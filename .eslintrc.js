@@ -50,6 +50,7 @@ module.exports = {
     'newline-per-chained-call': ['error', { ignoreChainWithDepth: 2 }], // 要求方法链中每个调用都有一个换行符
     'no-submodule-imports': ['off', '/@'],// 路径别名设置
     'no-implicit-dependencies': ['off', ['/@']],
+    'camelcase' : 'off',
     '@typescript-eslint/no-explicit-any': 'off' // 类型可以使用any
   },
   "globals":{
