@@ -30,7 +30,7 @@ import { validate, resetFields } from '@/utils/formExtend'
 const formRender = () => {
     const form = reactive({
         name: 'admin',
-        pwd: 'admin'
+        pwd: ''
     })
     const ruleForm = ref(null)
     const enterSubmit = (e: KeyboardEvent) => {
