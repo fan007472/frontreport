@@ -1,5 +1,5 @@
 <template>
-    <table-search 
+    <table-search
         :current-page='table.page'
         :page-size='table.size'
         :total='table.total'
@@ -187,7 +187,7 @@ const search = (table: ITable<IRenderTableList>, form: ISearchForm) => {
     const rules = reactive({})
     const refForm = ref(null)
     const submit = async() => {
-        if(!await validate(refForm)) return
+        if (!await validate(refForm)) return
         table.page = 1
         renderTableList(table, form)
     }
@@ -227,7 +227,7 @@ export default defineComponent({
             tag: '所有'
         })
         const tableData: ITable<IRenderTableList> = reactive({
-            data : [],
+            data: [],
             total: 0,
             page: 1,
             size: 10

@@ -15,6 +15,7 @@ export interface loginParam {
 }
 
 export function login(param: loginParam):Promise<AxiosResponse<IResponse<string>>> {
+    console.log('login =step 1')
     return request({
         url: api.login,
         method: 'post',

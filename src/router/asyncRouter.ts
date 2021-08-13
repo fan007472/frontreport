@@ -40,7 +40,7 @@ export const generatorDynamicRouter = (data:IMenubarList[]):void => {
         for (let i = 0, len = data.length; i < len; i++) {
             const v:IMenubarList = data[i]
             if (typeof v.component === 'string') v.component = components[v.component]
-            if (!v.meta.permission || pData && v.meta.permission.length === 0) {
+            if (!v.meta.permission || (pData && v.meta.permission.length === 0)) {
                 v.meta.permission = pData && pData.meta && pData.meta.permission ? pData.meta.permission : []
             }
             if (v.children && v.children.length > 0) {

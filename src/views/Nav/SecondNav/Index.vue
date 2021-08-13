@@ -8,4 +8,3 @@ export default defineComponent({
     name: 'SecondNav'
 })
 </script>
-

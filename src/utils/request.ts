@@ -2,7 +2,7 @@ import { store } from '@/store/index'
 import axios, { AxiosResponse } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 
-const MybaseURL = 'http://localhost/'
+const MybaseURL = 'http://localhost:8080'
 
 let loading:{close():void}
 // 创建 axios 实例
@@ -16,6 +16,7 @@ const request = axios.create({
 const errorHandler = (error:{message:string}) => {
     loading.close()
     console.log(`err${error}`)
+    console.log(error)
     ElNotification({
         title: '请求失败',
         message: error.message,
@@ -26,6 +27,8 @@ const errorHandler = (error:{message:string}) => {
 
 // request interceptor
 request.interceptors.request.use(config => {
+    console.log('11111111111111111')
+    console.log(config)
     loading = ElLoading.service({
         lock: true,
         text: 'Loading',
@@ -43,6 +46,8 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
+    console.log('22222222222222222')
+    console.log(response)
     const { data } = response
     loading.close()
     if (data.Code !== 200) {

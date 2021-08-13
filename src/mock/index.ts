@@ -4,9 +4,12 @@ import { login, setToken, checkToken, getUser, getRoute } from '@/mock/response'
 interface IReq {
     body: any
 }
-mock('/login', 'post', (req: IReq) => {
+
+const ctx = 'http://localhost:8080'
+
+mock(`${ctx}/login`, 'post', (req: IReq) => {
     const { username, password } = JSON.parse(req.body)
-    if(login(username, password)) {
+    if (login(username, password)) {
         return mock({
             Code: 200,
             Msg: '登陆成功',
@@ -23,7 +26,7 @@ mock('/login', 'post', (req: IReq) => {
 mock('/getUser', 'get', (req: IReq) => {
     const { token } = JSON.parse(req.body)
     const userName = checkToken(token)
-    if(!userName) {
+    if (!userName) {
         return mock({
             Code: 401,
             Msg: '身份认证失败',
@@ -40,7 +43,7 @@ mock('/getUser', 'get', (req: IReq) => {
 mock('/getRoute', 'get', (req: IReq) => {
     const { token } = JSON.parse(req.body)
     const userName = checkToken(token)
-    if(!userName) {
+    if (!userName) {
         return mock({
             Code: 401,
             Msg: '身份认证失败',
@@ -53,7 +56,6 @@ mock('/getRoute', 'get', (req: IReq) => {
         Msg: ''
     })
 })
-
 
 Random.extend({
     tag: function() {
@@ -79,7 +81,7 @@ const tableList: ITableList = mock({
         name: () => Random.name(),
         address: () => Random.cparagraph(1),
         tag: () => Random.tag(),
-        amt: () => Number(Random.float(-100000,100000).toFixed(2))
+        amt: () => Number(Random.float(-100000, 100000).toFixed(2))
     }]
 })
 mock('/getTableList', 'get', (req: IReq) => {
@@ -88,7 +90,7 @@ mock('/getTableList', 'get', (req: IReq) => {
     return mock({
         Code: 200,
         Data: {
-            data: data.filter((v,i) => i >= (page - 1) * size && i < page * size),
+            data: data.filter((v, i) => i >= (page - 1) * size && i < page * size),
             total: data.length
         },
         Msg: ''

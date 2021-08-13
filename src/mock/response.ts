@@ -27,8 +27,8 @@ export const getRoute = function(name: string):Array<IMenubarList> {
     const filterRoute:Array<IMenubarList> = []
     route.forEach(v => {
         arr.forEach(val => {
-            if(val.id === v.id) {
-                const obj = Object.assign({},v)
+            if (val.id === v.id) {
+                const obj = Object.assign({}, v)
                 obj.meta.permission = val.permission
                 filterRoute.push(obj)
             }

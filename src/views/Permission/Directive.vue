@@ -5,7 +5,7 @@
             class='mb-1'
         >
             <el-button type='primary'>
-                添加权限 
+                添加权限
             </el-button>
             <el-tag class='ml-1'>
                 v-action='"add"'

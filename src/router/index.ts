@@ -62,4 +62,8 @@ const router = createRouter({
     routes: allowRouter as RouteRecordRaw[]
 })
 
+// router.beforeEach(() => { console.log('router before each') })
+
+// router.afterEach(() => { console.log('router after') })
+
 export default router
