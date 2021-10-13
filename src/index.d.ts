@@ -10,7 +10,6 @@ declare global {
     interface IObject<T> {
         [index: string]: T
     }
-    
     interface IState extends IPage {
         layout: ILayout
     }

@@ -1,33 +1,51 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { IMenubarList } from '@/type/layout'
+import { components } from '@/router/asyncRouter'
 
-const components:IObject<() => Promise<typeof import('*.vue')>> = {
+const Components:IObject<() => Promise<typeof import('*.vue')>> = Object.assign({}, components, {
     Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
     Redirect: (() => import('@/layout/redirect.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    Login: (() => import('@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>
-}
+    LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>
+    // 404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    // Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    // Login: (() => import('@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>
+    // ,ClaimQiery: (() => import('@/views/Claim/ClaimQuery.vue')) as unknown as () => Promise<typeof import('*.vue')>
+})
 
 export const allowRouter: Array<IMenubarList> = [
     {
+        name: 'Dashboard',
         path: '/',
-        name: 'Home',
-        meta: { title: '仪表盘', icon: 'el-icon-eleme' },
-        component: components.Login
+        component: Components.Layout,
+        redirect: '/Dashboard/Workplace',
+        // redirect: '/Claim/ClaimQuery',
+        meta: { title: 'DashBoard', icon: 'el-icon-eleme' },
+        children: [
+            {
+                name: 'Workplace',
+                path: '/Dashboard/Workplace',
+                component: Components.Workplace,
+                meta: { title: 'DashBoard', icon: 'el-icon-s-tools' }
+            }
+        ]
     },
     {
         name: 'ErrorPage',
         path: '/ErrorPage',
         meta: { title: '错误页面', hidden: true, icon: 'el-icon-eleme' },
-        component: components.LayoutBlank,
-        redirect: '/Error/404',
+        component: Components.Layout,
+        redirect: '/ErrorPage/404',
         children: [
             {
+                name: '401',
+                path: '/ErrorPage/401',
+                component: Components['401'],
+                meta: { title: '401', icon: 'el-icon-s-tools' }
+            },
+            {
                 name: '404',
-                path: '/Error/404',
-                component: components['404'],
+                path: '/ErrorPage/404',
+                component: Components['404'],
                 meta: { title: '404', icon: 'el-icon-s-tools' }
             }
         ]
@@ -35,7 +53,7 @@ export const allowRouter: Array<IMenubarList> = [
     {
         name: 'RedirectPage',
         path: '/redirect',
-        component: components.Layout,
+        component: Components.Layout,
         meta: { title: '重定向页面', icon: 'el-icon-eleme', hidden: true },
         children: [
             {
@@ -45,25 +63,31 @@ export const allowRouter: Array<IMenubarList> = [
                     title: '重定向页面',
                     icon: ''
                 },
-                component: components.Redirect
+                component: Components.Redirect
             }
         ]
     },
     {
         name: 'Login',
         path: '/Login',
-        component: components.Login,
+        component: Components.Login,
         meta: { title: '登录', icon: 'el-icon-eleme', hidden: true }
     }
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: allowRouter as RouteRecordRaw[]
 })
 
-// router.beforeEach(() => { console.log('router before each') })
+// router.beforeEach((to, from) => {
+//     // console.log(from)
+//     console.log(to)
+// })
 
-// router.afterEach(() => { console.log('router after') })
+// router.afterEach((to, from) => {
+//     // console.log(from)
+//     console.log(to)
+// })
 
 export default router

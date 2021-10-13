@@ -1,83 +1,47 @@
 <template>
     <div class='content'>
-        <a
-            href='https://github.com/hsiangleev/element-plus-admin'
-            class='absolute right-0 top-0 z-10'
-        >
-            <img
-                width='149'
-                height='149'
-                src='https://layuiextend.hsianglee.cn/layui/images/forkme_right_red_aa0000.png'
-                class='attachment-full size-full'
-                alt='Fork me on GitHub'
-                data-recalc-dims='1'
-            >
-        </a>
-        <el-card
-            class='mb-2'
-            shadow='hover'
-        >
-            <div class='py-4 font-bold'>
-                工作台
-            </div>
+        <el-card class='mb-2' shadow='hover'>
+            <div class='py-4 font-bold'>工作台</div>
             <el-row>
-                <el-col
-                    :xs='24'
-                    :md='16'
-                >
+                <el-col :xs='24' :md='16'>
                     <div class='flex items-center'>
                         <div class='pr-4 flex items-center'>
-                            <el-avatar
-                                class='w-16 h-16'
-                                src='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
-                            />
+                            <el-avatar class='w-16 h-16' :src='people'>
+                                <img src='https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png' alt='Error' />
+                            </el-avatar>
                         </div>
                         <div>
-                            <div class='text-xl'>
-                                你好，{{ user.name }} ，祝你开心每一天！
-                            </div>
+                            <div class='text-xl'>您好，{{ user.name }} ，祝您开心每一天！</div>
                             <div class='text-sm text-gray-400 pt-2'>
-                                饿了么－某某某某某某－某某某某某－某某某某某－某某某
+                                <!-- {{result.Data}} -->
+                                <div v-if='loaded'>
+                                    {{result.city}} {{result.forecast[0].type}} {{result.forecast[0].high}} {{result.forecast[0].low}} {{result.ganmao}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </el-col>
-                <el-col
-                    :xs='24'
-                    :md='8'
-                >
+                <el-col :xs='24' :md='8'>
                     <div class='flex items-center flex-row-reverse'>
                         <div class='px-1 text-center'>
                             <div class='text-sm text-gray-400 pb-2'>
-                                访问量
+                                总案件量
                             </div>
-                            <div class='text-xl'>
-                                3,344
-                            </div>
+                            <div class='text-xl'>3,344</div>
                         </div>
-                        <el-divider
-                            direction='vertical'
-                            class='h-8'
-                        />
+                        <el-divider direction='vertical' class='h-8' />
                         <div class='px-1 text-center'>
                             <div class='text-sm text-gray-400 pb-2'>
-                                排名
+                                未决案件量
                             </div>
-                            <div class='text-xl'>
-                                1/100
-                            </div>
+                            <div class='text-xl'>1/100</div>
                         </div>
-                        <el-divider
-                            direction='vertical'
-                            class='h-8'
-                        />
+                        <el-divider direction='vertical' class='h-8' />
                         <div class='px-1 text-center'>
                             <div class='text-sm text-gray-400 pb-2'>
-                                项目数量
+                                已决案件数量
                             </div>
-                            <div class='text-xl'>
-                                100
-                            </div>
+                            <div class='text-xl'>100</div>
                         </div>
                     </div>
                 </el-col>
@@ -85,32 +49,19 @@
         </el-card>
 
         <el-row :gutter='15'>
-            <el-col
-                :md='24'
-                :lg='16'
-            >
-                <list
-                    type='card'
-                    :data='list'
-                >
+            <el-col :md='24' :lg='16'>
+                <list type='card' :data='list'>
                     <template #header>
                         <div class='card-header flex justify-between items-center'>
                             <span>进行中的项目</span>
-                            <el-link
-                                type='primary'
-                                :underline='false'
-                                href='javascript:;'
-                            >
+                            <el-link type='primary' :underline='false' href='javascript:;'>
                                 全部项目
                             </el-link>
                         </div>
                     </template>
                 </list>
 
-                <el-card
-                    shadow='hover'
-                    class='mb-2'
-                >
+                <el-card shadow='hover' class='mb-2'>
                     <template #header>
                         <div class='card-header flex justify-between items-center'>
                             <span>动态</span>
@@ -126,25 +77,22 @@
                 </el-card>
             </el-col>
 
-            <el-col
-                :md='24'
-                :lg='8'
-            >
-                <el-card
-                    shadow='hover'
-                    class='mb-2'
-                >
+            <el-col :md='24' :lg='8'>
+                <el-card shadow='hover' class='mb-2'>
                     <template #header>
-                        <div class='card-header flex justify-between items-center'>
+                        <div
+                            class='
+                                card-header
+                                flex
+                                justify-between
+                                items-center
+                            '
+                        >
                             <span>快速开始</span>
                         </div>
                     </template>
                     <div class='flex flex-wrap'>
-                        <div
-                            v-for='o in 7'
-                            :key='o'
-                            class='p-1'
-                        >
+                        <div v-for='o in 1' :key='o' class='p-1'>
                             <el-tag>
                                 {{ '操作 ' + o }}
                             </el-tag>
@@ -152,34 +100,36 @@
                     </div>
                 </el-card>
 
-                <el-card
-                    shadow='hover'
-                    class='mb-2'
-                >
+                <el-card shadow='hover' class='mb-2'>
                     <template #header>
-                        <div class='card-header flex justify-between items-center'>
+                        <div
+                            class='
+                                card-header
+                                flex
+                                justify-between
+                                items-center
+                            '
+                        >
                             <span>快速开始</span>
                         </div>
                     </template>
-                    <div
-                        ref='chartDom'
-                        class='w-full h-64'
-                    />
+                    <div ref='chartDom' class='w-full h-64' />
                 </el-card>
 
-                <el-card
-                    shadow='hover'
-                    class='mb-2'
-                >
+                <el-card shadow='hover' class='mb-2'>
                     <template #header>
-                        <div class='card-header flex justify-between items-center'>
+                        <div
+                            class='
+                                card-header
+                                flex
+                                justify-between
+                                items-center
+                            '
+                        >
                             <span>圆饼图</span>
                         </div>
                     </template>
-                    <div
-                        ref='chartDom2'
-                        class='w-full h-64'
-                    />
+                    <div ref='chartDom2' class='w-full h-64' />
                 </el-card>
             </el-col>
         </el-row>
@@ -187,65 +137,40 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import List, { IList } from '@/components/List/index.vue'
 import { useStore } from '@/store/index'
 import { echarts, ECOption } from '@/components/Echart'
+import 'echarts/lib/component/legend'
+import people from '@/assets/img/001.jpeg'
+import { getWeatherInfoAxios } from '@/api/components/index'
 
 // list初始化
 const listRender = () => {
-    const list:IList[] = [
+    const list: IList[] = [
         {
             imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            title: '支付宝',
-            subTitle: '斗通关无际县军连用知政以该果思快领c。',
+            title: '1',
+            subTitle: '2',
             tag: '科学搬砖组',
             time: '9小时前',
             href: 'javascript:;'
         },
         {
             imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            title: '支付宝',
-            subTitle: '斗通关无际县军连用知政以该果思快领c。',
-            tag: '科学搬砖组',
-            time: '9小时前'
-        },
-        {
-            imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            title: '支付宝',
-            subTitle: '斗通关无际县军连用知政以该果思快领c。',
-            tag: '科学搬砖组',
-            time: '9小时前'
-        },
-        {
-            imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            title: '支付宝',
-            subTitle: '斗通关无际县军连用知政以该果思快领c。',
-            tag: '科学搬砖组',
-            time: '9小时前'
-        },
-        {
-            imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            title: '支付宝',
-            subTitle: '斗通关无际县军连用知政以该果思快领c。',
-            tag: '科学搬砖组',
-            time: '9小时前'
-        },
-        {
-            imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            title: '支付宝',
-            subTitle: '斗通关无际县军连用知政以该果思快领c。',
+            title: '3',
+            subTitle: '4',
             tag: '科学搬砖组',
             time: '9小时前'
         }
     ]
-    const edit = (item:IList) => console.log(item)
+    const edit = (item: IList) => console.log(item)
     return { list, edit }
 }
 
 // 雷达图
-const chartRadar:() => ECOption = () => {
-    const option:ECOption = {
+const chartRadar: () => ECOption = () => {
+    const option: ECOption = {
         title: {
             text: '基础雷达图'
         },
@@ -272,28 +197,30 @@ const chartRadar:() => ECOption = () => {
                 { name: '市场', max: 25000 }
             ]
         },
-        series: [{
-            name: '预算 vs 开销',
-            type: 'radar',
-            // areaStyle: {normal: {}},
-            data: [
-                {
-                    value: [4300, 10000, 28000, 35000, 50000, 19000],
-                    name: '预算分配'
-                },
-                {
-                    value: [5000, 14000, 28000, 31000, 42000, 21000],
-                    name: '实际开销'
-                }
-            ]
-        }]
+        series: [
+            {
+                name: '预算 vs 开销',
+                type: 'radar',
+                // areaStyle: {normal: {}},
+                data: [
+                    {
+                        value: [4300, 10000, 28000, 35000, 50000, 19000],
+                        name: '预算分配'
+                    },
+                    {
+                        value: [5000, 14000, 28000, 31000, 42000, 21000],
+                        name: '实际开销'
+                    }
+                ]
+            }
+        ]
     }
     return option
 }
 
 // 圆饼图
-const chartPie:() => ECOption = () => {
-    const option:ECOption = {
+const chartPie: () => ECOption = () => {
+    const option: ECOption = {
         tooltip: {
             trigger: 'item'
         },
@@ -339,11 +266,11 @@ const chartInit = () => {
     const chartDom = ref(null)
     const chartDom2 = ref(null)
     onMounted(() => {
-        const optionsArray:echarts.ECharts[] = []
-        let myChart = echarts.init(chartDom.value as unknown as HTMLElement)
+        const optionsArray: echarts.ECharts[] = []
+        let myChart = echarts.init((chartDom.value as unknown) as HTMLElement)
         myChart.setOption(chartRadar())
         optionsArray.push(myChart)
-        myChart = echarts.init(chartDom2.value as unknown as HTMLElement)
+        myChart = echarts.init((chartDom2.value as unknown) as HTMLElement)
         myChart.setOption(chartPie())
         optionsArray.push(myChart)
         window.onresize = () => {
@@ -356,6 +283,22 @@ const chartInit = () => {
     }
 }
 
+interface IweatherD1 {
+    date:string
+    fengli:string
+    fengxiang:string
+    high:string
+    low:string
+    type:string
+}
+
+interface IWeather {
+    city: string
+    forecast : Array<IweatherD1>
+    ganmao: string
+    wendu: string
+}
+
 export default defineComponent({
     name: 'Workplace',
     components: {
@@ -363,8 +306,29 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-
+        const { result, loading, loaded } = getWeatherInfoAxios<IWeather>('http://wthrcdn.etouch.cn/weather_mini?city=上海')
+        // console.log(result)
+        // console.log(result.value?.Data.city)
+        // console.log(Msg)
+        // console.log(Data)
+        // let WeatherInfo = getWeatherInfoAxios('上海').then(res => {
+        //     if (res.status === 1000) {
+        //         const weatherDetail: IWeather = (res.data as unknown) as IWeather
+        //         // eslint-disable-next-line prefer-destructuring
+        //         const i1:IweatherD1 = weatherDetail.forecast[0]
+        //         WeatherInfo = `${weatherDetail.city} ${i1.high} ${i1.low} ${i1.date} ${i1.fengli} ${i1.fengxiang}`
+        //         console.log(WeatherInfo)
+        //     } else {
+        //         WeatherInfo = '未能取到天气信息'
+        //         console.log(WeatherInfo)
+        //     }
+        // })
         return {
+            people,
+            result,
+            loading,
+            loaded,
+            // WeatherInfo,
             user: store.state.layout.userInfo,
             ...listRender(),
             ...chartInit()

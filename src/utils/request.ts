@@ -1,7 +1,7 @@
 import { store } from '@/store/index'
 import axios, { AxiosResponse } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
-
+import QS from 'qs'
 const MybaseURL = 'http://localhost:8080'
 
 let loading:{close():void}
@@ -15,8 +15,8 @@ const request = axios.create({
 // 异常拦截处理器
 const errorHandler = (error:{message:string}) => {
     loading.close()
-    console.log(`err${error}`)
-    console.log(error)
+    // console.log(`err${error}`)
+    // console.log(error)
     ElNotification({
         title: '请求失败',
         message: error.message,
@@ -27,8 +27,6 @@ const errorHandler = (error:{message:string}) => {
 
 // request interceptor
 request.interceptors.request.use(config => {
-    console.log('11111111111111111')
-    console.log(config)
     loading = ElLoading.service({
         lock: true,
         text: 'Loading',
@@ -46,8 +44,8 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
-    console.log('22222222222222222')
-    console.log(response)
+    // console.log('22222222222222222')
+    // console.log(response)
     const { data } = response
     loading.close()
     if (data.Code !== 200) {
@@ -67,5 +65,29 @@ request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     }
     return response
 }, errorHandler)
+
+export function getAxios(url:string, params:any):Promise<AxiosResponse<IResponse>> {
+    return new Promise((resolve, reject) => {
+        axios.get(url, params)
+            .then(res => {
+                resolve(res.data)
+            })
+            .catch(err => {
+                reject(err.data)
+            })
+    })
+}
+
+export function postAxios(url:string, params:any):Promise<AxiosResponse> {
+    return new Promise((resolve, reject) => {
+        axios.post(url, QS.stringify(params))
+            .then(res => {
+                resolve(res.data)
+            })
+            .catch(err => {
+                reject(err.data)
+            })
+    })
+}
 
 export default request

@@ -60,3 +60,20 @@ export interface ITagsList {
     path: string
     isActive: boolean
 }
+
+
+export interface IweatherD1 {
+    date:string
+    fengli:string
+    fengxiang:string
+    high:string
+    low:string
+    type:string
+}
+
+export interface IWeather {
+    city: string
+    forecast : Array<IweatherD1>
+    ganmao: string
+    wendu: string
+}
