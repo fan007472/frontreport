@@ -3,20 +3,27 @@ import { listToTree } from '@/utils/tools'
 import { store } from '@/store/index'
 
 // 动态路由名称映射表
-const modules = require.context('@/views', true, /\*.vue/)
+// const modules = require.context('../views', true, /\.vue$/)
 const components:IObject<() => Promise<typeof import('*.vue')>> = {
-    Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>
-}
-modules.keys().forEach(key => {
-    const nameMatch = key.match(/^\.\.\/views\/(.+)\.vue/)
-    if (!nameMatch) return
-    // 如果页面以Index命名，则使用父文件夹作为name
-    const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
-    let name = indexMatch ? indexMatch[1] : nameMatch[1];
-    [name] = name.split('/').splice(-1)
-    components[name] = modules(key) as () => Promise<typeof import('*.vue')>
-})
+    Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    ClaimQuery: (() => import('@/views/Claim/ClaimQuery.vue')) as unknown as () => Promise<typeof import('*.vue')>
 
+}
+// modules.keys().forEach(key => {
+//     // console.log(key)
+//     const nameMatch = key.match(/(.+)\.vue/)
+//     if (!nameMatch) return
+//     // 如果页面以Index命名，则使用父文件夹作为name
+//     const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
+//     let name = indexMatch ? indexMatch[1] : nameMatch[1];
+//     [name] = name.split('/').splice(-1)
+//     // const ctrl = modules(key).default || odules(key)
+//     // console.log('============')
+//     // console.log(ctrl)
+//     components[name] = modules(key).default
+//     // as () => Promise<typeof import('*.vue')>
+// })
+// console.log(components)
 const asyncRouter:IMenubarList[] = [
     {
         path: '/:pathMatch(.*)*',
@@ -33,8 +40,9 @@ const asyncRouter:IMenubarList[] = [
     }
 ]
 
-export const generatorDynamicRouter = (data:IMenubarList[]):void => {
+const generatorDynamicRouter = (data:IMenubarList[]):void => {
     const routerList:IMenubarList[] = listToTree(data, 0)
+    // console.log(data)
     asyncRouter.forEach(v => routerList.push(v))
     const f = (data:IMenubarList[], pData:IMenubarList|null) => {
         for (let i = 0, len = data.length; i < len; i++) {
@@ -50,4 +58,9 @@ export const generatorDynamicRouter = (data:IMenubarList[]):void => {
     }
     f(routerList, null)
     store.commit('layout/setRoutes', routerList)
+}
+
+export {
+    components,
+    generatorDynamicRouter
 }

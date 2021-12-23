@@ -7,15 +7,10 @@
         />
         <div
             class='layout-sidebar flex flex-col h-screen transition-width duration-200 shadow'
-            :class='{
-                "w-64": layout.menubar.status === 0 || layout.menubar.status === 2,
-                "w-0": layout.menubar.status === 3,
-                "w-16": layout.menubar.status === 1,
-                "absolute z-30": layout.menubar.status === 2 || layout.menubar.status === 3,
-            }'
+            :class='{ "w-64": layout.menubar.status === 0 || layout.menubar.status === 2, "w-0": layout.menubar.status === 3, "w-16": layout.menubar.status === 1,"absolute z-30": layout.menubar.status === 2 || layout.menubar.status === 3,}'
         >
             <div class='layout-sidebar-logo flex h-12 relative flex-center shadow-lg'>
-                {{ layout.menubar.status === 0 || layout.menubar.status === 2 ? 'hsianglee' : (layout.menubar.status === 1 ? 'lee' : '') }}
+                {{ layout.menubar.status === 0 || layout.menubar.status === 2 ? 'Zurich' : (layout.menubar.status === 1 ? 'Zurich' : '') }}
             </div>
             <div class='layout-sidebar-menubar flex flex-1 overflow-hidden'>
                 <layout-menubar />
@@ -50,6 +45,7 @@ import LayoutTags from '@/layout/components/tags.vue'
 import LayoutSideSetting from '@/layout/components/sideSetting.vue'
 import { useStore } from '@/store/index'
 import { throttle } from '@/utils/tools'
+import changeThemeColor from '@/utils/changeThemeColor'
 
 export default defineComponent({
     name: 'Layout',
@@ -64,9 +60,9 @@ export default defineComponent({
         const store = useStore()
         const changeDeviceWidth = () => store.commit('layout/changeDeviceWidth')
         const changeCollapsed = () => store.commit('layout/changeCollapsed')
-        // const { setting } = store.state.layout
-        // const defaultTheme = ref(setting.color.primary)
-
+        const { setting } = store.state.layout
+        // console.log(setting)
+        const defaultTheme = ref(setting.color.primary)
         store.commit('layout/changeTheme')
 
         onMounted(async() => {
@@ -78,7 +74,7 @@ export default defineComponent({
             }
             window.addEventListener('resize', throttleF, true)
             // 判断是否修改过主题色
-            //   defaultTheme.value.toLowerCase() == '#409eff'
+            defaultTheme.value.toLowerCase() === '#409eff' && await changeThemeColor(defaultTheme.value)
         })
         return {
             layout: store.state.layout,

@@ -40,7 +40,6 @@ export default defineComponent({
         const store = useStore()
 
         const key = computed(() => route.path)
-
         const data = reactive({
             cachedViews: [...store.state.layout.tags.cachedViews]
         })

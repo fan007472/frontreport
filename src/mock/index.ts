@@ -23,7 +23,7 @@ mock(`${ctx}/login`, 'post', (req: IReq) => {
     })
 })
 
-mock('/getUser', 'get', (req: IReq) => {
+mock(`${ctx}/getUser`, 'get', (req: IReq) => {
     const { token } = JSON.parse(req.body)
     const userName = checkToken(token)
     if (!userName) {
@@ -40,7 +40,7 @@ mock('/getUser', 'get', (req: IReq) => {
     })
 })
 
-mock('/getRoute', 'get', (req: IReq) => {
+mock(`${ctx}/getRoute`, 'get', (req: IReq) => {
     const { token } = JSON.parse(req.body)
     const userName = checkToken(token)
     if (!userName) {
@@ -84,7 +84,7 @@ const tableList: ITableList = mock({
         amt: () => Number(Random.float(-100000, 100000).toFixed(2))
     }]
 })
-mock('/getTableList', 'get', (req: IReq) => {
+mock(`${ctx}/getTableList`, 'get', (req: IReq) => {
     const { page, size, tag } = JSON.parse(req.body)
     const data = tag === '所有' ? tableList.list : tableList.list.filter(v => v.tag === tag)
     return mock({

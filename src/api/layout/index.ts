@@ -6,7 +6,8 @@ import { IMenubarList } from '@/type/layout'
 const api = {
     login: '/login',
     getUser: '/getUser',
-    getRouterList: '/getRoute'
+    getRouterList: '/getRoute',
+    getWeatherInfo: 'http://wthrcdn.etouch.cn/weather_mini?city=上海'
 }
 
 export interface loginParam {
@@ -15,7 +16,6 @@ export interface loginParam {
 }
 
 export function login(param: loginParam):Promise<AxiosResponse<IResponse<string>>> {
-    console.log('login =step 1')
     return request({
         url: api.login,
         method: 'post',

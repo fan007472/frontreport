@@ -28,14 +28,16 @@ router.beforeEach(async(to, from) => {
     if (layout.menubar.menuList.length === 0) {
         await store.dispatch('layout/GenerateRoutes')
         await store.dispatch('layout/getUser')
-        for (let i = 0; i < layout.menubar.menuList.length; i++) {
-            router.addRoute(layout.menubar.menuList[i] as RouteRecordRaw)
+
+        for (const value of layout.menubar.menuList) {
+            router.addRoute(value as RouteRecordRaw)
         }
         store.commit('layout/concatAllowRoutes')
         return to.fullPath
     }
     store.commit('layout/changeTagNavList', to) // 切换导航，记录打开的导航(标签页)
 
+    // console.log(to)
     // 离开当前页面时是否需要添加当前页面缓存
     !new RegExp(/^\/redirect\//).test(from.path) &&
         store.state.layout.tags.tagsList.some(v => v.name === from.name) &&

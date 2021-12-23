@@ -1,10 +1,9 @@
 <template>
     <div class='flex items-center px-4 flex-wrap h-12 leading-12'>
         <span
-            class='text-2xl cursor-pointer h-12 leading-12'
-            :class='{ "el-icon-s-fold": !menubar.status, "el-icon-s-unfold": menubar.status }'
-            @click='changeCollapsed'
-        />
+            class='text-2xl cursor-pointer h-12 leading-12'>
+            <i :class='{ "el-icon-s-fold": !menubar.status, "el-icon-s-unfold": menubar.status }' @click='changeCollapsed'></i>
+        </span>
         <!-- 面包屑导航 -->
         <div class='px-4'>
             <el-breadcrumb separator='/'>
@@ -109,6 +108,7 @@ export default defineComponent({
         Notice
     },
     setup() {
+        // console.log('navbar')
         const store = useStore()
         const route = useRoute()
         const changeCollapsed = () => store.commit('layout/changeCollapsed')

@@ -58,27 +58,27 @@ export const route:Array<IMenubarList> = [
     {
         id: 2,
         parentId: 0,
-        name: 'Project',
-        path: '/Project',
+        name: 'Claim',
+        path: '/Claim',
         component: 'Layout',
-        redirect: '/Project/ProjectList',
-        meta: { title: '项目管理', icon: 'el-icon-phone' }
+        redirect: '/Claim/ClaimQuery',
+        meta: { title: 'Claim Function', icon: 'el-icon-hot-water' }
     },
     {
         id: 20,
         parentId: 2,
-        name: 'ProjectList',
-        path: '/Project/ProjectList',
-        component: 'ProjectList',
-        meta: { title: '项目列表', icon: 'el-icon-goods' }
+        name: 'ClaimQuery',
+        path: '/Claim/ClaimQuery',
+        component: 'ClaimQuery',
+        meta: { title: 'Query', icon: 'el-icon-s-data' }
     },
     {
         id: 21,
         parentId: 2,
         name: 'ProjectDetail',
-        path: '/Project/ProjectDetail/:projName',
-        component: 'ProjectDetail',
-        meta: { title: '项目详情', icon: 'el-icon-question', activeMenu: '/Project/ProjectList', hidden: true }
+        path: '/Claim/ClaimCircReport',
+        component: 'ClaimCircReport',
+        meta: { title: 'CIRC Report', icon: 'el-icon-question' }
     },
     {
         id: 22,
@@ -86,7 +86,7 @@ export const route:Array<IMenubarList> = [
         name: 'ProjectImport',
         path: '/Project/ProjectImport',
         component: 'ProjectImport',
-        meta: { title: '项目导入', icon: 'el-icon-help' }
+        meta: { title: 'Cheque Report', icon: 'el-icon-attract' }
     },
     {
         id: 3,

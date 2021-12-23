@@ -3,7 +3,7 @@ import { ILayout, IMenubarStatus, ITagsList, IMenubarList, ISetting, IToken } fr
 import { ActionContext } from 'vuex'
 import router, { allowRouter } from '@/router/index'
 import { generatorDynamicRouter } from '@/router/asyncRouter'
-// import changeTheme from '@/utils/changeTheme'
+import changeTheme from '@/utils/changeTheme'
 import { setLocal, useLocal, getLocal, decodeUrl } from '@/utils/tools'
 import { RouteLocationNormalizedLoaded } from 'vue-router'
 
@@ -118,7 +118,7 @@ const mutations = {
     },
     login(state: ILayout, token = ''):void {
         state.token.ACCESS_TOKEN = token
-        setLocal('token', state.token, 1000 * 60 * 60)
+        setLocal('token', state.token, 1000 * 60)
         const { query } = router.currentRoute.value
         router.push(typeof query.from === 'string' ? decodeUrl(query.from) : '/')
     },
@@ -138,13 +138,13 @@ const mutations = {
         state.userInfo.role = userInfo.role
     },
     // 修改主题
-    // changeTheme(state: ILayout, num:number):void {
-    //     if (num === state.setting.theme) return
-    //     if (typeof num !== 'number') num = state.setting.theme
-    //     changeTheme(num)
-    //     state.setting.theme = num
-    //     localStorage.setItem('setting', JSON.stringify(state.setting))
-    // },
+    changeTheme(state: ILayout, num:number):void {
+        if (num === state.setting.theme) return
+        if (typeof num !== 'number') num = state.setting.theme
+        changeTheme(num)
+        state.setting.theme = num
+        localStorage.setItem('setting', JSON.stringify(state.setting))
+    },
     changeTagsSetting(state: ILayout, showTags:boolean):void {
         state.setting.showTags = showTags
         localStorage.setItem('setting', JSON.stringify(state.setting))

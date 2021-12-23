@@ -1,5 +1,6 @@
-import request from '@/utils/request'
+import  request, { getAxios } from '@/utils/request'
 import { AxiosResponse } from 'axios'
+import { ref } from 'vue'
 const api = {
     getTableList: '/getTableList'
 }
@@ -15,4 +16,24 @@ export function getTableList(tableList: ITableList): Promise<AxiosResponse<IResp
         method: 'get',
         data: tableList
     })
+}
+
+export function getWeatherInfoAxios<T>(surl: string) {
+    const result = ref<IResponse<T>|null>(null)
+    const loading = ref(true)
+    const loaded = ref(false)
+    const error = ref(null)
+    getAxios(surl, {}).then(res =>{
+        result.value = res.data
+        loaded.value = true
+        loading.value = false
+    }).catch((e) =>{
+        error.value = e
+    })
+    return {
+        result,
+        loading,
+        loaded,
+        error
+    }
 }

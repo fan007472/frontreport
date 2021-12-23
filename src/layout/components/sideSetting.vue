@@ -59,10 +59,10 @@
                     <div>开启 Tags-View</div>
                     <el-switch v-model='showTags' />
                 </div>
-                <div class='flex justify-between items-center py-1'>
+                <!-- <div class='flex justify-between items-center py-1'>
                     <div>主题色</div>
                     <layout-theme />
-                </div>
+                </div> -->
             </div>
         </div>
     </el-drawer>
@@ -72,14 +72,15 @@
 import { ref, defineComponent, watch } from 'vue'
 import theme from '@/config/theme'
 import { useStore } from '@/store/index'
-import LayoutTheme from '@/layout/components/theme.vue'
+// import LayoutTheme from '@/layout/components/theme.vue'
 
 export default defineComponent({
     name: 'LayoutSideSetting',
     components: {
-        LayoutTheme
+        // LayoutTheme
     },
     setup() {
+        // console.log('sideSetting')
         const store = useStore()
         const drawer = ref(false)
         const changeTheme = (index:number) => store.commit('layout/changeTheme', index)
