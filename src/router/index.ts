@@ -3,13 +3,8 @@ import { IMenubarList } from '@/type/layout'
 import { components } from '@/router/asyncRouter'
 
 const Components:IObject<() => Promise<typeof import('*.vue')>> = Object.assign({}, components, {
-    Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
     Redirect: (() => import('@/layout/redirect.vue')) as unknown as () => Promise<typeof import('*.vue')>,
     LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>
-    // 404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    // Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    // Login: (() => import('@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>
-    // ,ClaimQiery: (() => import('@/views/Claim/ClaimQuery.vue')) as unknown as () => Promise<typeof import('*.vue')>
 })
 
 export const allowRouter: Array<IMenubarList> = [
@@ -18,7 +13,6 @@ export const allowRouter: Array<IMenubarList> = [
         path: '/',
         component: Components.Layout,
         redirect: '/Dashboard/Workplace',
-        // redirect: '/Claim/ClaimQuery',
         meta: { title: 'DashBoard', icon: 'el-icon-eleme' },
         children: [
             {
@@ -74,20 +68,9 @@ export const allowRouter: Array<IMenubarList> = [
         meta: { title: '登录', icon: 'el-icon-eleme', hidden: true }
     }
 ]
-
 const router = createRouter({
     history: createWebHashHistory(),
     routes: allowRouter as RouteRecordRaw[]
 })
-
-// router.beforeEach((to, from) => {
-//     // console.log(from)
-//     console.log(to)
-// })
-
-// router.afterEach((to, from) => {
-//     // console.log(from)
-//     console.log(to)
-// })
 
 export default router

@@ -60,18 +60,14 @@ export default defineComponent({
         const route = useRoute()
         const router = useRouter()
         const { menubar } = store.state.layout
-        // console.log(menubar.menuList)
 
         const filterMenubarData = filterMenubar(menubar.menuList)
-        // console.log(filterMenubarData)
 
         const activeMenu = computed(() => {
-            // console.log(route.meta.activeMenu)
             if (route.meta.activeMenu) return route.meta.activeMenu
             return route.path
         })
         const onOpenChange = (d: any) => {
-            console.log(d)
             router.push({ path: d })
             menubar.status === 2 && store.commit('layout/changeCollapsed')
         }

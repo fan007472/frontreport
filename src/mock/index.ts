@@ -1,11 +1,12 @@
 import { mock, Random } from 'mockjs'
+
 import { login, setToken, checkToken, getUser, getRoute } from '@/mock/response'
 
 interface IReq {
     body: any
 }
 
-const ctx = 'http://localhost:8080'
+const ctx = ''
 
 mock(`${ctx}/login`, 'post', (req: IReq) => {
     const { username, password } = JSON.parse(req.body)

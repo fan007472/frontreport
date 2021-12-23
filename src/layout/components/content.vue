@@ -38,10 +38,7 @@ export default defineComponent({
     setup() {
         const route = useRoute()
         const store = useStore()
-        // console.log(route.path)
         const key = computed(() => route.path)
-        console.log(route)
-        console.log(key)
         const data = reactive({
             cachedViews: [...store.state.layout.tags.cachedViews]
         })
@@ -50,8 +47,6 @@ export default defineComponent({
             () => store.state.layout.tags.cachedViews.length,
             () => {
                 data.cachedViews = [...store.state.layout.tags.cachedViews]
-                // console.log('123123123')
-                // console.log(data.cachedViews)
                 return data.cachedViews
             }
         )

@@ -3,33 +3,36 @@ import { listToTree } from '@/utils/tools'
 import { store } from '@/store/index'
 // import { components } from '@/router/index'
 // 动态路由名称映射表
-const files = require.context('../views', true, /\.vue$/)
-const components:IObject<() => Promise<typeof import('*.vue')>> = { Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')> }
-// const components:IObject<() => Promise<typeof import('*.vue')>> = {
-//     Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-//     ClaimQuery: (() => import('@/views/Claim/ClaimQuery.vue')) as unknown as () => Promise<typeof import('*.vue')>
-// }
+// const files = require.context('../views', true, /\.vue$/)
+
+const components:IObject<() => Promise<typeof import('*.vue')>> = {
+    Layout: (() => import('@/layout/index.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    Login: (() => import('@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    ClaimQuery: (() => import('@/views/Claim/ClaimQuery.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    ClaimCirc: (() => import('@/views/Claim/ClaimCirc.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    ClaimCheque: (() => import('@/views/Claim/ClaimCheque.vue')) as unknown as () => Promise<typeof import('*.vue')>
+}
 // console.log('============================')
-files.keys().forEach(file => {
-    const nameMatch = file.match(/^\.\/(.*)\.vue/)
-    if (!nameMatch) return
-    // if (nameMatch[1].includes('_Components')) {
-    //     console.log('00000')
-    //     return
-    // }
-    // 如果页面以Index命名，则使用父文件夹作为name
-    const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
-    let name = indexMatch ? indexMatch[1] : nameMatch[1];
-    [name] = name.split('/').splice(-1)
-    // console.log('1111')
-    // console.log(files(file).default)
-    // console.log(file(key))
-    // console.log(components.Layout)
-    // console.log('============================2')
-    components[name] = files(file).default as () => Promise<typeof import('*.vue')>
-})
-// console.log('11111111')
-console.log(components)
+// files.keys().forEach(file => {
+//     const nameMatch = file.match(/^\.\/(.*)\.vue/)
+//     if (!nameMatch) return
+//     if (nameMatch[1].includes('ClaimQuery')) {
+//         console.log('00000')
+//         return
+//     }
+//     // 如果页面以Index命名，则使用父文件夹作为name
+//     const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
+//     let name = indexMatch ? indexMatch[1] : nameMatch[1];
+//     [name] = name.split('/').splice(-1)
+//     // console.log('1111')
+//     // console.log(files(file).default)
+//     // console.log(file(key))
+//     // console.log(components.Layout)
+//     // console.log('============================2')
+//     components[name] = files(file).default as () => Promise<typeof import('*.vue')>
+// })
 const asyncRouter:IMenubarList[] = [
     {
         path: '/:pathMatch(.*)*',
@@ -44,18 +47,10 @@ const asyncRouter:IMenubarList[] = [
             name: '404'
         }
     }
-    // {
-    //     name: 'ClaimQuery',
-    //     path: '/Claim/ClaimQuery',
-    //     component: components.ClaimQuery,
-    //     redirect: '/Claim/ClaimQuery',
-    //     meta: { title: 'Query', icon: 'el-icon-eleme' }
-    // }
 ]
 
 const generatorDynamicRouter = (data:IMenubarList[]):void => {
     const routerList:IMenubarList[] = listToTree(data, 0)
-    // console.log(asyncRouter)
     asyncRouter.forEach(v => {
         routerList.push(v)
     })
@@ -72,7 +67,6 @@ const generatorDynamicRouter = (data:IMenubarList[]):void => {
         }
     }
     f(routerList, null)
-    // console.log(routerList)
     store.commit('layout/setRoutes', routerList)
 }
 
