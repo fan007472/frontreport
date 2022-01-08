@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "serve_mock": "vue-cli-service serve --mode mock",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
@@ -17,6 +18,7 @@
     "element-plus": "^1.0.2-beta.71",
     "nprogress": "^0.2.0",
     "register-service-worker": "^1.7.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "^3.2.4",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.11",
@@ -61,6 +63,6 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
     "typescript": "^4.3.5",
     "typescript-eslint-parser": "^22.0.0",
-    "vue-cli-plugin-mock": "~1.0.3"
+    "mockjs": "^1.1.0"
   }
 }

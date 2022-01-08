@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { store } from '@/store/index'
 import axios, { AxiosResponse } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 import QS from 'qs'
-const MybaseURL = 'http://localhost:8080'
+const MybaseURL = ''
 
 let loading:{close():void}
 // 创建 axios 实例
@@ -44,8 +45,6 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
-    // console.log('22222222222222222')
-    // console.log(response)
     const { data } = response
     loading.close()
     if (data.Code !== 200) {
