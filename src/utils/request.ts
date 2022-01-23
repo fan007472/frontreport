@@ -16,8 +16,6 @@ const request = axios.create({
 // 异常拦截处理器
 const errorHandler = (error:{message:string}) => {
     loading.close()
-    // console.log(`err${error}`)
-    // console.log(error)
     ElNotification({
         title: '请求失败',
         message: error.message,
@@ -38,7 +36,8 @@ request.interceptors.request.use(config => {
     // 如果 token 存在
     // 让每个请求携带自定义 token 请根据实际情况自行修改
     if (token) {
-        config.headers['Access-Token'] = token
+        console.log(token)
+        config.headers.Authorization = token
     }
     return config
 }, errorHandler)
@@ -47,9 +46,9 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     const { data } = response
     loading.close()
-    if (data.Code !== 200) {
+    if (data.code !== 200) {
         let title = '请求失败'
-        if (data.Code === 401) {
+        if (data.code === 401) {
             if (store.state.layout.token.ACCESS_TOKEN) {
                 store.commit('layout/logout')
             }
@@ -57,10 +56,10 @@ request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
         }
         ElNotification({
             title,
-            message: data.Msg,
+            message: data.message,
             type: 'error'
         })
-        return Promise.reject(new Error(data.Msg || 'Error'))
+        return Promise.reject(new Error(data.message || 'Error'))
     }
     return response
 }, errorHandler)

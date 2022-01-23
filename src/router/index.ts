@@ -76,9 +76,4 @@ const router = createRouter({
     routes: allowRouter as RouteRecordRaw[]
 })
 
-router.beforeEach((to, from) => {
-    // console.log(from)
-    // console.log(to)
-})
-
 export default router

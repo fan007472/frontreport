@@ -13,8 +13,7 @@ import '@/assets/index.css'
 import 'default-passive-events'
 
 // 引入 mockjs
-if (process.env.NODE_ENV === 'development' && process.env.VUE_APP_MOCK) {
-    console.log(true)
+if (process.env.NODE_ENV === 'development' && process.env.VUE_APP_MOCK === 'true') {
     require('@/mock')
 }
 

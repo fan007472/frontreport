@@ -1,8 +1,8 @@
 import { IMenubarList } from '@/type/layout'
 export const user = [
-    { name: 'admin', pwd: 'admin' },
+    { name: 'admin', pwd: '123' },
     { name: 'dev', pwd: 'dev' },
-    { name: 'test', pwd: 'test' }
+    { name: 'test', pwd: '123' }
 ]
 
 export const role = [
@@ -55,15 +55,7 @@ export const role_route = [
 ]
 
 export const route:Array<IMenubarList> = [
-    {
-        id: 2,
-        parentId: 0,
-        name: 'Claim',
-        path: '/Claim',
-        component: 'Layout',
-        redirect: '/Claim/ClaimQuery',
-        meta: { title: 'Claim Function', icon: 'el-icon-hot-water' }
-    },
+ 
     {
         id: 20,
         parentId: 2,

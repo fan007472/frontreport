@@ -3,9 +3,9 @@ import { IPage } from '@/type/page'
 
 declare global {
     interface IResponse<T = any> {
-        Code: number;
-        Msg: string;
-        Data: T;
+        code: number;
+        message: string;
+        obj: T;
     }
     interface IObject<T> {
         [index: string]: T
@@ -18,8 +18,5 @@ declare global {
         total: number
         page: number
         size: number
-    }
-    interface ImportMetaEnv {
-        VITE_APP_TITLE: string
     }
 }

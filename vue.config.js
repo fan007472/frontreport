@@ -4,6 +4,21 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+const proxyObj = {}
+
+// 代理所有根目录
+proxyObj['/'] = {
+    // websocket
+    ws: false,
+    target: 'http://localhost:8080',
+    // 替换Host URL target
+    changeOrigin: true,
+    // 不重写请求地址
+    pathReWrite: {
+        '^/': '/'
+    }
+}
+
 // function resolve(dir) {
 //     return path.join(__dirname, dir)
 // }
@@ -21,7 +36,7 @@ module.exports = {
     // 指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径
     // indexPath: process.env.NODE_ENV === 'development' ? './' : path.resolve(__dirname, srcFltPath),
     // Eslint关闭
-    lintOnSave: !isProduction,
+    lintOnSave: isProduction,
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
     configureWebpack: config => {
@@ -56,9 +71,11 @@ module.exports = {
         }
     },
     devServer: {
+        host: 'localhost',
         port: 8888,
         open: true, // 自动开启浏览器
         compress: true, // 开启压缩
+        // proxy: proxyObj,
         overlay: {
             warnings: true,
             errors: true

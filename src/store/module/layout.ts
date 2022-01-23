@@ -11,7 +11,7 @@ const setting = getLocal<ISetting>('setting')
 const token = getLocal<IToken>('token')
 // 前端检查token是否失效
 useLocal('token')
-    .then(d => token.ACCESS_TOKEN = d.ACCESS_TOKEN)
+    .then(d => (token.ACCESS_TOKEN = d.ACCESS_TOKEN))
     .catch(() => mutations.logout(state))
 
 const state:ILayout = {
@@ -64,7 +64,7 @@ const mutations = {
         if (!state.setting.showTags) return // 判断是否开启多标签页
         if (cRouter.meta.hidden && !cRouter.meta.activeMenu) return // 隐藏的菜单如果不是子菜单则不添加到标签
         const index = state.tags.tagsList.findIndex(v => v.path === cRouter.path)
-        state.tags.tagsList.forEach(v => v.isActive = false)
+        state.tags.tagsList.forEach(v => v.isActive)
         // 判断页面是否打开过
         if (index !== -1) {
             state.tags.tagsList[index].isActive = true
@@ -116,9 +116,9 @@ const mutations = {
         if (state.tags.tagsList.map(v => v.name).includes(obj.name)) return
         state.tags.cachedViews.splice(obj.index, 1)
     },
-    login(state: ILayout, token = ''):void {
-        state.token.ACCESS_TOKEN = token
-        setLocal('token', state.token, 1000 * 60)
+    login(state: ILayout, token :{ tokenHead: string, token: string }):void {
+        state.token.ACCESS_TOKEN = `${token.tokenHead} ${token.token}`
+        setLocal('token', state.token, 1000 * 60 * 60 * 24)
         const { query } = router.currentRoute.value
         router.push(typeof query.from === 'string' ? decodeUrl(query.from) : '/')
     },
@@ -152,7 +152,7 @@ const mutations = {
         if (showTags) {
             const index = state.tags.tagsList.findIndex(v => v.path === router.currentRoute.value.path)
             if (index !== -1) {
-                state.tags.tagsList.forEach(v => v.isActive = false)
+                state.tags.tagsList.forEach(v => v.isActive)
                 state.tags.tagsList[index].isActive = true
             } else {
                 mutations.changeTagNavList(state, router.currentRoute.value)
@@ -163,18 +163,19 @@ const mutations = {
 const actions = {
     async login(context:ActionContext<ILayout, IState>, param: loginParam):Promise<void> {
         const res = await login(param)
-        const token = res.data.Data
+        const token = res.data.obj
         context.commit('login', token)
     },
     async getUser(context:ActionContext<ILayout, IState>):Promise<void> {
         const res = await getUser()
-        const userInfo = res.data.Data
+        const userInfo = res.data.obj
         context.commit('getUser', userInfo)
     },
     async GenerateRoutes():Promise<void> {
+        console.log('Get Menu Info')
         const res = await getRouterList()
-        const { Data } = res.data
-        generatorDynamicRouter(Data)
+        const { obj } = res.data
+        generatorDynamicRouter(obj)
     }
 }
 const layoutState = {
