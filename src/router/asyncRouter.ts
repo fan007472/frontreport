@@ -42,7 +42,6 @@ const asyncRouter:IMenubarList[] = [
 
 const generatorDynamicRouter = (data:IMenubarList[]):void => {
     const routerList:IMenubarList[] = listToTree(data, 0)
-    // console.log(data)
     asyncRouter.forEach(v => routerList.push(v))
     const f = (data:IMenubarList[], pData:IMenubarList|null) => {
         for (let i = 0, len = data.length; i < len; i++) {
