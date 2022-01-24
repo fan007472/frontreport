@@ -61,7 +61,7 @@ export const route:Array<IMenubarList> = [
         name: 'Claim',
         path: '/Claim',
         component: 'Layout',
-        redirect: '/Claim/ClaimQuery',
+        // redirect: '/Claim/ClaimQuery',
         meta: { title: 'Claim Function', icon: 'el-icon-hot-water' }
     },
     {

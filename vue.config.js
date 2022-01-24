@@ -2,6 +2,15 @@ const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
+const proxyObj = {}
+proxyObj['/'] = {
+    ws: false,
+    target: 'http://localhost:8080',
+    changeOrigin: true,
+    pathReWrite: {
+        '^/': '/'
+    }
+}
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -58,6 +67,7 @@ module.exports = {
         port: 8888,
         open: true, // 自动开启浏览器
         compress: true, // 开启压缩
+        proxy: proxyObj,
         overlay: {
             warnings: true,
             errors: true

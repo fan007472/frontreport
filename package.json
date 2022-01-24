@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "serve_mock": "vue-cli-service serve --mode mock",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test",
     "lint": "vue-cli-service lint",
     "stylelint": "npx stylelint **/*.{css,vue} --fix"
   },
