@@ -55,7 +55,6 @@ export const role_route = [
 ]
 
 export const route:Array<IMenubarList> = [
-<<<<<<< HEAD
     {
         id: 2,
         parentId: 0,
@@ -65,9 +64,6 @@ export const route:Array<IMenubarList> = [
         // redirect: '/Claim/ClaimQuery',
         meta: { title: 'Claim Function', icon: 'el-icon-hot-water' }
     },
-=======
- 
->>>>>>> frontreport/master
     {
         id: 20,
         parentId: 2,
@@ -79,29 +75,17 @@ export const route:Array<IMenubarList> = [
     {
         id: 21,
         parentId: 2,
-<<<<<<< HEAD
         name: 'ClaimCirc',
         path: '/Claim/ClaimCirc',
         component: 'ClaimCirc',
-=======
-        name: 'ProjectDetail',
-        path: '/Claim/ClaimCircReport',
-        component: 'ClaimCircReport',
->>>>>>> frontreport/master
         meta: { title: 'CIRC Report', icon: 'el-icon-question' }
     },
     {
         id: 22,
         parentId: 2,
-<<<<<<< HEAD
         name: 'ClaimCheque',
         path: '/Claim/ClaimCheque',
         component: 'ClaimCheque',
-=======
-        name: 'ProjectImport',
-        path: '/Project/ProjectImport',
-        component: 'ProjectImport',
->>>>>>> frontreport/master
         meta: { title: 'Cheque Report', icon: 'el-icon-attract' }
     },
     {

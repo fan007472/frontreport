@@ -19,11 +19,7 @@ declare global {
         page: number
         size: number
     }
-<<<<<<< HEAD:src/index.d.ts
     interface ImportMetaEnv {
         VITE_APP_TITLE: string
     }
 }
-=======
-}
->>>>>>> frontreport/master:src/type/index.d.ts
