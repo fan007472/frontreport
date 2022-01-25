@@ -71,9 +71,16 @@ export function isTextarea(el: HTMLElement): boolean {
 /**
  * localStorage设置有效期
  * @param name localStorage设置名称
+<<<<<<< HEAD
  * @param data 数据对象
  * @param pExpires 有效期(默认100年) pExpires = 1000 * 60 * 60 * 24 * 365 * 100
  */
+=======
+ * @param data 数据对象 
+ * @param pExpires 有效期(默认100年) pExpires = 1000毫秒 * 60秒 * 60分 * 24时 * 365天 * 100年
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+>>>>>>> frontreport/master
 export function setLocal(name:string, data:IObject<any>, pExpires:any):void {
     const d = data as ILocalStore
     d.startTime = Date.now()

@@ -16,7 +16,10 @@ import 'default-passive-events'
 if (process.env.NODE_ENV === 'development' && process.env.VUE_APP_MOCK === 'true') {
     require('@/mock')
 }
+<<<<<<< HEAD
 console.log(process.env.NODE_ENV === 'production')
+=======
+>>>>>>> frontreport/master
 
 createApp(App)
     .use(store)

@@ -42,6 +42,7 @@ mock(`${ctx}/getUser`, 'get', (req: IReq) => {
 })
 
 mock(`${ctx}/getRoute`, 'get', (req: IReq) => {
+<<<<<<< HEAD
     const { token } = JSON.parse(req.body)
     const userName = checkToken(token)
     if (!userName) {
@@ -51,9 +52,21 @@ mock(`${ctx}/getRoute`, 'get', (req: IReq) => {
             Data: ''
         })
     }
+=======
+    // const { token } = JSON.parse(req.body)
+    // const { token } = { '' }
+    // const userName = checkToken(token)
+    // if (!userName) {
+    //     return mock({
+    //         Code: 401,
+    //         Msg: '身份认证失败',
+    //         Data: ''
+    //     })
+    // }
+>>>>>>> frontreport/master
     return mock({
         Code: 200,
-        Data: getRoute(userName),
+        Data: getRoute('admin'),
         Msg: ''
     })
 })

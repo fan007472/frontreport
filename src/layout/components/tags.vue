@@ -25,10 +25,7 @@
         class='border border-gray-200 absolute w-24 leading-none bg-white shadow-md rounded-lg py-0.5 z-10'
         :style='menuPos'
     >
-        <li
-            class='px-4 py-2 cursor-pointer hover:bg-gray-200'
-            @click='refresh'
-        >
+        <li class='px-4 py-2 cursor-pointer hover:bg-gray-200' @click='refresh'>
             刷新
         </li>
         <li

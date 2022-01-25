@@ -11,7 +11,11 @@ const setting = getLocal<ISetting>('setting')
 const token = getLocal<IToken>('token')
 // 前端检查token是否失效
 useLocal('token')
+<<<<<<< HEAD
     .then(d => token.ACCESS_TOKEN === d.ACCESS_TOKEN)
+=======
+    .then(d => (token.ACCESS_TOKEN = d.ACCESS_TOKEN))
+>>>>>>> frontreport/master
     .catch(() => mutations.logout(state))
 
 const state:ILayout = {
@@ -172,7 +176,11 @@ const actions = {
         context.commit('getUser', userInfo)
     },
     async GenerateRoutes():Promise<void> {
+<<<<<<< HEAD
         console.log('generate router')
+=======
+        console.log('Get Menu Info')
+>>>>>>> frontreport/master
         const res = await getRouterList()
         const { obj } = res.data
         generatorDynamicRouter(obj)

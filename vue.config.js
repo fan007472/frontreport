@@ -1,20 +1,44 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable @typescript-eslint/no-var-requires */
+>>>>>>> frontreport/master
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
+<<<<<<< HEAD
 const proxyObj = {}
 proxyObj['/'] = {
     ws: false,
     target: 'http://localhost:8888',
     changeOrigin: true,
+=======
+
+const proxyObj = {}
+
+// 代理所有根目录
+proxyObj['/'] = {
+    // websocket
+    ws: false,
+    target: 'http://localhost:8080',
+    // 替换Host URL target
+    changeOrigin: true,
+    // 不重写请求地址
+>>>>>>> frontreport/master
     pathReWrite: {
         '^/': '/'
     }
 }
 
+<<<<<<< HEAD
 function resolve(dir) {
     return path.join(__dirname, dir)
 }
+=======
+// function resolve(dir) {
+//     return path.join(__dirname, dir)
+// }
+>>>>>>> frontreport/master
 
 // const srcFltPath = 'D:/front/index.html'
 const srcStaticPath = 'D:/front'
@@ -29,7 +53,11 @@ module.exports = {
     // 指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径
     // indexPath: process.env.NODE_ENV === 'development' ? './' : path.resolve(__dirname, srcFltPath),
     // Eslint关闭
+<<<<<<< HEAD
     lintOnSave: !isProduction,
+=======
+    lintOnSave: isProduction,
+>>>>>>> frontreport/master
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
     configureWebpack: config => {
@@ -64,10 +92,18 @@ module.exports = {
         }
     },
     devServer: {
+<<<<<<< HEAD
         port: 8080,
         open: true, // 自动开启浏览器
         compress: true, // 开启压缩
         proxy: proxyObj,
+=======
+        host: 'localhost',
+        port: 8888,
+        open: true, // 自动开启浏览器
+        compress: true, // 开启压缩
+        // proxy: proxyObj,
+>>>>>>> frontreport/master
         overlay: {
             warnings: true,
             errors: true

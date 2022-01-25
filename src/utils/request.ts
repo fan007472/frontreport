@@ -16,8 +16,11 @@ const request = axios.create({
 // 异常拦截处理器
 const errorHandler = (error:{message:string}) => {
     loading.close()
+<<<<<<< HEAD
     // console.log(`err${error}`)
     // console.log(error)
+=======
+>>>>>>> frontreport/master
     ElNotification({
         title: '请求失败！服务器异常，请联系管理员！',
         message: error.message,
@@ -38,6 +41,10 @@ request.interceptors.request.use(config => {
     // 如果 token 存在
     // 让每个请求携带自定义 token 请根据实际情况自行修改
     if (token) {
+<<<<<<< HEAD
+=======
+        console.log(token)
+>>>>>>> frontreport/master
         config.headers.Authorization = token
     }
     return config
@@ -49,7 +56,11 @@ request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     loading.close()
     if (data.code !== 200) {
         let title = '请求失败'
+<<<<<<< HEAD
         if (data.code === 401 || data.code === 402 || data.code === 403) {
+=======
+        if (data.code === 401) {
+>>>>>>> frontreport/master
             if (store.state.layout.token.ACCESS_TOKEN) {
                 store.commit('layout/logout')
             }

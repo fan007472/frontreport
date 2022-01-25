@@ -6,7 +6,11 @@
     "serve_mock": "vue-cli-service serve --mode mock",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+<<<<<<< HEAD
     "test": "vue-cli-service test",
+=======
+    "test:unit": "vue-cli-service test:unit",
+>>>>>>> frontreport/master
     "lint": "vue-cli-service lint",
     "stylelint": "npx stylelint **/*.{css,vue} --fix"
   },

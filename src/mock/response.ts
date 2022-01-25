@@ -6,8 +6,9 @@ export const setToken = function(name: string):string {
 }
 
 export const checkToken = function(token: string):string {
-    const match = token.match(/^token_([\w|\W]+?)_token/)
-    return match ? match[1] : ''
+    // const match = token.match(/^token_([\w|\W]+?)_token/)
+    // return match ? match[1] : ''
+    return ''
 }
 
 export const login = function(name: string, pwd: string):boolean {
@@ -34,5 +35,6 @@ export const getRoute = function(name: string):Array<IMenubarList> {
             }
         })
     })
+    console.log(filterRoute)
     return filterRoute
 }
