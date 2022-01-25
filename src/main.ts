@@ -16,6 +16,7 @@ import 'default-passive-events'
 if (process.env.NODE_ENV === 'development' && process.env.VUE_APP_MOCK === 'true') {
     require('@/mock')
 }
+console.log(process.env.NODE_ENV === 'production')
 
 createApp(App)
     .use(store)

@@ -25,6 +25,8 @@ router.beforeEach(async(to, from) => {
     // 判断是否登录
     if (!layout.token.ACCESS_TOKEN) return loginRoutePath + (to.fullPath ? `?from=${encodeUrl(to.fullPath)}` : '')
     // 判断是否还没添加过路由
+    console.log('-----')
+    console.log(layout.menubar.menuList.length)
     if (layout.menubar.menuList.length === 0) {
         await store.dispatch('layout/GenerateRoutes')
         await store.dispatch('layout/getUser')
@@ -34,7 +36,11 @@ router.beforeEach(async(to, from) => {
         }
         store.commit('layout/concatAllowRoutes')
         return to.fullPath
+        // next({ ...to, replace: true })
+    // } else {
+    //     next()
     }
+
     store.commit('layout/changeTagNavList', to) // 切换导航，记录打开的导航(标签页)
 
     // console.log(to)

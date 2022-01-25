@@ -19,7 +19,7 @@ const errorHandler = (error:{message:string}) => {
     // console.log(`err${error}`)
     // console.log(error)
     ElNotification({
-        title: '请求失败',
+        title: '请求失败！服务器异常，请联系管理员！',
         message: error.message,
         type: 'error'
     })
@@ -38,7 +38,7 @@ request.interceptors.request.use(config => {
     // 如果 token 存在
     // 让每个请求携带自定义 token 请根据实际情况自行修改
     if (token) {
-        config.headers['Access-Token'] = token
+        config.headers.Authorization = token
     }
     return config
 }, errorHandler)
@@ -47,9 +47,9 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     const { data } = response
     loading.close()
-    if (data.Code !== 200) {
+    if (data.code !== 200) {
         let title = '请求失败'
-        if (data.Code === 401) {
+        if (data.code === 401 || data.code === 402 || data.code === 403) {
             if (store.state.layout.token.ACCESS_TOKEN) {
                 store.commit('layout/logout')
             }
@@ -57,10 +57,10 @@ request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
         }
         ElNotification({
             title,
-            message: data.Msg,
+            message: data.message,
             type: 'error'
         })
-        return Promise.reject(new Error(data.Msg || 'Error'))
+        return Promise.reject(new Error(data.message || 'Error'))
     }
     return response
 }, errorHandler)

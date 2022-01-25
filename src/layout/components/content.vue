@@ -3,20 +3,20 @@
         <router-view
             v-slot='{ Component }'
         >
-            <transition
+            <!-- <transition
                 name='fade-transform'
                 mode='out-in'
-            >
-                <keep-alive
+            > -->
+            <!-- <keep-alive
                     :include='layout.setting.showTags ? data.cachedViews : []'
-                >
-                    <component
-                        :is='Component'
-                        :key='key'
-                        class='page m-3 relative'
-                    />
-                </keep-alive>
-            </transition>
+                > -->
+            <component
+                :is='Component'
+                :key='key'
+                class='page m-3 relative'
+            />
+            <!-- </keep-alive> -->
+            <!-- </transition> -->
         </router-view>
         <el-backtop
             target='.layout-main-content>.el-scrollbar>.el-scrollbar__wrap'
@@ -27,10 +27,9 @@
         </el-backtop>
     </el-scrollbar>
 </template>
-
 <script lang='ts'>
 import { computed, defineComponent, reactive, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store/index'
 
 export default defineComponent({
@@ -42,11 +41,15 @@ export default defineComponent({
         const data = reactive({
             cachedViews: [...store.state.layout.tags.cachedViews]
         })
+        const router = useRouter()
+        console.log(router.getRoutes())
+
         // keep-alive的include重新赋值，解决bug https://github.com/vuejs/vue-next/issues/2550
         watch(
             () => store.state.layout.tags.cachedViews.length,
             () => {
                 data.cachedViews = [...store.state.layout.tags.cachedViews]
+                console.log(data.cachedViews)
                 return data.cachedViews
             }
         )

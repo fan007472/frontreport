@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 const proxyObj = {}
 proxyObj['/'] = {
     ws: false,
-    target: 'http://localhost:8080',
+    target: 'http://localhost:8888',
     changeOrigin: true,
     pathReWrite: {
         '^/': '/'
@@ -64,7 +64,7 @@ module.exports = {
         }
     },
     devServer: {
-        port: 8888,
+        port: 8080,
         open: true, // 自动开启浏览器
         compress: true, // 开启压缩
         proxy: proxyObj,

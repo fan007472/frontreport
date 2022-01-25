@@ -4,7 +4,11 @@ import { components } from '@/router/asyncRouter'
 
 const Components:IObject<() => Promise<typeof import('*.vue')>> = Object.assign({}, components, {
     Redirect: (() => import('@/layout/redirect.vue')) as unknown as () => Promise<typeof import('*.vue')>,
-    LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>
+    LayoutBlank: (() => import('@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    Login: (() => import('@/views/User/Login.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    404: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    401: (() => import('@/views/ErrorPage/404.vue')) as unknown as () => Promise<typeof import('*.vue')>,
+    Workplace: (() => import('@/views/Dashboard/Workplace.vue')) as unknown as () => Promise<typeof import('*.vue')>
 })
 
 export const allowRouter: Array<IMenubarList> = [
@@ -13,13 +17,13 @@ export const allowRouter: Array<IMenubarList> = [
         path: '/',
         component: Components.Layout,
         redirect: '/Dashboard/Workplace',
-        meta: { title: 'DashBoard', icon: 'el-icon-eleme' },
+        meta: { title: '工作台', icon: 'el-icon-eleme' },
         children: [
             {
                 name: 'Workplace',
                 path: '/Dashboard/Workplace',
                 component: Components.Workplace,
-                meta: { title: 'DashBoard', icon: 'el-icon-s-tools' }
+                meta: { title: '工作台', icon: 'el-icon-s-tools' }
             }
         ]
     },
