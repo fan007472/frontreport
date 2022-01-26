@@ -29,7 +29,7 @@ module.exports = {
     // 指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径
     // indexPath: process.env.NODE_ENV === 'development' ? './' : path.resolve(__dirname, srcFltPath),
     // Eslint关闭
-    lintOnSave: !isProduction,
+    lintOnSave: isProduction,
     // 生产环境是否生成 sourceMap 文件
     productionSourceMap: false,
     configureWebpack: config => {

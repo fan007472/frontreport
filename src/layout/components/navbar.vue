@@ -6,7 +6,7 @@
         </span>
         <!-- 面包屑导航 -->
         <div class='px-4'>
-            <el-breadcrumb separator='/'>
+            <el-breadcrumb separator-class='el-icon-arrow-right'>
                 <transition-group name='breadcrumb'>
                     <el-breadcrumb-item
                         key='/'
@@ -66,6 +66,7 @@ import { defineComponent, reactive, watch } from 'vue'
 import { useStore } from '@/store/index'
 import { useRoute, RouteLocationNormalizedLoaded } from 'vue-router'
 import Notice from '@/layout/components/notice.vue'
+import { ElMessageBox, ElMessage } from 'element-plus'
 
 interface IBreadcrumbList {
     path: string
@@ -103,7 +104,30 @@ export default defineComponent({
         const store = useStore()
         const route = useRoute()
         const changeCollapsed = () => store.commit('layout/changeCollapsed')
-        const logout = () => store.commit('layout/logout')
+        const logout = () => {
+            ElMessageBox.confirm(
+                '您是否确认注销当前账号?',
+                '警告',
+                {
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }
+            )
+                .then(() => {
+                    store.commit('layout/logout')
+                    ElMessage({
+                        type: 'success',
+                        message: '注销成功'
+                    })
+                })
+                .catch(() => {
+                    ElMessage({
+                        type: 'info',
+                        message: '操作取消'
+                    })
+                })
+        }
         return {
             menubar: store.state.layout.menubar,
             userInfo: store.state.layout.userInfo,

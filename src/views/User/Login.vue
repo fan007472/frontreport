@@ -44,7 +44,7 @@ const formRender = () => {
         await store.dispatch('layout/login', { username: name, password: pwd })
         ElNotification({
             title: '欢迎',
-            message: '欢迎回来',
+            message: `${name} 欢迎回来`,
             type: 'success'
         })
     }

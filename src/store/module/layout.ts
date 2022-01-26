@@ -125,6 +125,8 @@ const mutations = {
     logout(state: ILayout):void {
         state.token.ACCESS_TOKEN = ''
         localStorage.removeItem('token')
+        localStorage.removeItem('userInfo')
+        localStorage.removeItem('menubar')
         history.go(0)
     },
     setRoutes(state: ILayout, data: Array<IMenubarList>):void {
