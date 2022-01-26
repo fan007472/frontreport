@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { store } from '@/store/index'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, AxiosError } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 import QS from 'qs'
 const MybaseURL = ''
@@ -14,13 +14,24 @@ const request = axios.create({
 })
 
 // 异常拦截处理器
-const errorHandler = (error:{message:string}) => {
+const errorHandler = (error: AxiosError) => {
+    const stitle = '请求失败!'
+    let { message } = error
+    if (error.response?.status === 500 || error.response?.status === 504 || error.response?.status === 404) {
+        message = `服务器无法访问！HTTP Code:${error.response?.status}`
+    }
+    if (error.response?.status === 403) {
+        message = `权限不足! HTTP Code:${error.response?.status}`
+    }
+    if (error.response?.status === 401) {
+        message = `尚未登陆！HTTP Code:${error.response?.status}`
+    }
     loading.close()
     // console.log(`err${error}`)
     // console.log(error)
     ElNotification({
-        title: '请求失败!服务器异常！',
-        message: error.message,
+        title: stitle,
+        message: message,
         type: 'error'
     })
     return Promise.reject(error)
