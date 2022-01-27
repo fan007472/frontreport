@@ -3,20 +3,20 @@
         <router-view
             v-slot='{ Component }'
         >
-            <!-- <transition
+            <transition
                 name='fade-transform'
                 mode='out-in'
-            > -->
-            <!-- <keep-alive
+            >
+                <keep-alive
                     :include='layout.setting.showTags ? data.cachedViews : []'
-                > -->
-            <component
-                :is='Component'
-                :key='key'
-                class='page m-3 relative'
-            />
-            <!-- </keep-alive> -->
-            <!-- </transition> -->
+                >
+                    <component
+                        :is='Component'
+                        :key='key'
+                        class='page m-3 relative'
+                    />
+                </keep-alive>
+            </transition>
         </router-view>
         <el-backtop
             target='.layout-main-content>.el-scrollbar>.el-scrollbar__wrap'
@@ -28,7 +28,7 @@
     </el-scrollbar>
 </template>
 <script lang='ts'>
-import { computed, defineComponent, reactive, watch } from 'vue'
+import { computed, defineComponent, reactive, watch, shallowRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store/index'
 

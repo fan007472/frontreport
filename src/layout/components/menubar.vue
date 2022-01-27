@@ -71,9 +71,10 @@ export default defineComponent({
             return route.path
         })
         const onOpenChange = (d: any) => {
-            // console.log(d)
+            console.log(d)
+            console.log(typeof (d))
             router.push({ path: d })
-            menubar.status === 2 && store.commit('layout/changeCollapsed')
+            // menubar.status === 2 && store.commit('layout/changeCollapsed')
         }
         return {
             menubar,
