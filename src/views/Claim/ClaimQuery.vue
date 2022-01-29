@@ -73,88 +73,90 @@
                     />
                 </el-form-item>
                 <br>
-                <template v-if='expandMore'>
-                    <el-form-item label='赔案号' prop='claimno'>
-                        <el-input v-model='queryForm.claimno' clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label='保单号' prop='pcyno'>
-                        <el-input v-model='queryForm.pcyno'></el-input>
-                    </el-form-item>
-                    <el-form-item label='投保人' prop='apctnm'>
-                        <el-input v-model='queryForm.apctnm'></el-input>
-                    </el-form-item>
-                    <el-form-item label='准备金标识' prop='claimFlag'>
-                        <el-select v-model='queryForm.claimFlag' multiple placeholder='请选择'>
-                            <el-option
-                                v-for='item in options'
-                                :key='item.value'
-                                :label='item.label'
-                                :value='item.value'
+                <transition name='slide-fade'>
+                    <div v-if='expandMore'>
+                        <el-form-item label='赔案号' prop='claimno'>
+                            <el-input v-model='queryForm.claimno' clearable></el-input>
+                        </el-form-item>
+                        <el-form-item label='保单号' prop='pcyno'>
+                            <el-input v-model='queryForm.pcyno'></el-input>
+                        </el-form-item>
+                        <el-form-item label='投保人' prop='apctnm'>
+                            <el-input v-model='queryForm.apctnm'></el-input>
+                        </el-form-item>
+                        <el-form-item label='准备金标识' prop='claimFlag'>
+                            <el-select v-model='queryForm.claimFlag' multiple placeholder='请选择'>
+                                <el-option
+                                    v-for='item in options'
+                                    :key='item.value'
+                                    :label='item.label'
+                                    :value='item.value'
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label='大案分类' prop='claimcategory'>
+                            <el-select v-model='queryForm.claimcategory' multiple placeholder='案件分类'>
+                                <el-option
+                                    v-for='item in options'
+                                    :key='item.value'
+                                    :label='item.label'
+                                    :value='item.value'
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label='再保公司' prop='ria_branch'>
+                            <el-input v-model='queryForm.ria_branch'></el-input>
+                        </el-form-item>
+                        <el-form-item label='事故期间' prop='accidentdate'>
+                            <el-date-picker
+                                v-model='queryForm.accidentdate'
+                                type='daterange'
+                                unlink-panels
+                                range-separator='-'
+                                start-placeholder='Start date'
+                                end-placeholder='End date'
+                                :shortcuts='shortcuts'
+                            />
+                        </el-form-item>
+                        <el-form-item label='报案期间' prop='reportdate'>
+                            <el-date-picker
+                                v-model='queryForm.reportdate'
+                                type='daterange'
+                                unlink-panels
+                                range-separator='-'
+                                start-placeholder='Start date'
+                                end-placeholder='End date'
+                                :shortcuts='shortcuts'
+                            />
+                        </el-form-item>
+                        <el-form-item label='出单公司' prop='branch'>
+                            <el-select v-model='queryForm.branch' clearable placeholder='请选择'>
+                                <el-option value='ZBJ' label='北京分公司'/>
+                                <el-option value='ZSH' label='上海分公司'/>
+                                <el-option value='ZGD' label='广州分公司'/>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label='重开期间' prop='reopendate'>
+                            <el-date-picker
+                                v-model='queryForm.reopendate'
+                                type='daterange'
+                                unlink-panels
+                                range-separator='-'
+                                start-placeholder='Start date'
+                                end-placeholder='End date'
+                                :shortcuts='shortcuts'
                             >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label='大案分类' prop='claimcategory'>
-                        <el-select v-model='queryForm.claimcategory' multiple placeholder='案件分类'>
-                            <el-option
-                                v-for='item in options'
-                                :key='item.value'
-                                :label='item.label'
-                                :value='item.value'
-                            >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label='再保公司' prop='ria_branch'>
-                        <el-input v-model='queryForm.ria_branch'></el-input>
-                    </el-form-item>
-                    <el-form-item label='事故期间' prop='accidentdate'>
-                        <el-date-picker
-                            v-model='queryForm.accidentdate'
-                            type='daterange'
-                            unlink-panels
-                            range-separator='-'
-                            start-placeholder='Start date'
-                            end-placeholder='End date'
-                            :shortcuts='shortcuts'
-                        />
-                    </el-form-item>
-                    <el-form-item label='报案期间' prop='reportdate'>
-                        <el-date-picker
-                            v-model='queryForm.reportdate'
-                            type='daterange'
-                            unlink-panels
-                            range-separator='-'
-                            start-placeholder='Start date'
-                            end-placeholder='End date'
-                            :shortcuts='shortcuts'
-                        />
-                    </el-form-item>
-                    <el-form-item label='出单公司' prop='branch'>
-                        <el-select v-model='queryForm.branch' clearable placeholder='请选择'>
-                            <el-option value='ZBJ' label='北京分公司'/>
-                            <el-option value='ZSH' label='上海分公司'/>
-                            <el-option value='ZGD' label='广州分公司'/>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label='重开期间' prop='reopendate'>
-                        <el-date-picker
-                            v-model='queryForm.reopendate'
-                            type='daterange'
-                            unlink-panels
-                            range-separator='-'
-                            start-placeholder='Start date'
-                            end-placeholder='End date'
-                            :shortcuts='shortcuts'
-                        >
-                        </el-date-picker>
-                    </el-form-item>
-                </template>
+                            </el-date-picker>
+                        </el-form-item>
+                    </div>
+                </transition>
                 <el-form-item>
-                    <el-button type='primary' @click='onSubmit()' style='margin-left: 1em;'>查询</el-button>
+                    <el-button type='primary' @click='onSubmit()' style='margin-left: 1em;' icon='el-icon-search'>查询</el-button>
                     <el-button type='warning' @click='resetForm(queryFormRef)'>清除</el-button>
                     <el-button :icon='expandMore ?&apos;el-icon-arrow-up&apos;:&apos;el-icon-arrow-down&apos;' type='text' @click='expandMore =!expandMore'>{{ expandMore ? '更多查询条件：收起':'更多查询条件：展开' }}</el-button>
-                    <el-button type='success'>报表导出</el-button>
+                    <el-button type='success' icon='el-icon-download'>报表导出</el-button>
                 </el-form-item>
             </el-form>
 
@@ -278,5 +280,18 @@ export default defineComponent({
 .el-select,
 .el-input__inner {
   width: 260px !important;
+}
+.slide-fade-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>
