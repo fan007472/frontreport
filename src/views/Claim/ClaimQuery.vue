@@ -151,20 +151,27 @@
                     </el-form-item>
                 </template>
                 <el-form-item>
-                    <el-button type='primary' @click='onSubmit()' style='margin-left: 1em;'>查询</el-button>
-                    <el-button type='warning' @click='resetForm(queryFormRef)'>清除</el-button>
+                    <el-button type='primary' @click='onSubmit()' style='margin-left: 1em;' icon='el-icon-search'>查询</el-button>
+                    <el-button type='warning' @click='resetFields(queryFormRef)' icon='el-icon-refresh'>清除</el-button>
                     <el-button :icon='expandMore ?&apos;el-icon-arrow-up&apos;:&apos;el-icon-arrow-down&apos;' type='text' @click='expandMore =!expandMore'>{{ expandMore ? '更多查询条件：收起':'更多查询条件：展开' }}</el-button>
-                    <el-button type='success'>报表导出</el-button>
+                    <el-button type='success' icon='el-icon-download'>报表导出</el-button>
                 </el-form-item>
             </el-form>
-
         </el-card>
     </div>
+    <!-- <div>
+        <el-table :data='tableData' stripe style='width: 100%'>
+            <el-table-column prop='date' label='Date' width='180' />
+            <el-table-column prop='name' label='Name' width='180' />
+            <el-table-column prop='address' label='Address' />
+        </el-table>
+    </div> -->
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import type { ElForm } from 'element-plus'
+import { resetFields } from '@/utils/formExtend'
 const options = [
     {
         value: 'Option1',
@@ -179,7 +186,6 @@ const options = [
         label: 'Option3'
     }
 ]
-
 const shortcuts = [
     {
         text: '上周',
@@ -209,10 +215,7 @@ const shortcuts = [
         }
     }
 ]
-
 const expandMore = ref(false)
-
-const resetFormData = ref(null)
 const queryForm = ref({
     claimno: '',
     pcyno: '',
@@ -238,22 +241,40 @@ const queryForm = ref({
     closedate: '',
     reopendate: ''
 })
+const queryFormRef = ref<InstanceType<typeof ElForm>>()
+const tableData = [
+    {
+        date: '2016-05-03',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles'
+    },
+    {
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles'
+    },
+    {
+        date: '2016-05-04',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles'
+    },
+    {
+        date: '2016-05-01',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles'
+    }
+]
 export default defineComponent({
     name: 'ClaimQuery',
     setup() {
-        const queryFormRef = ref<InstanceType<typeof ElForm>>()
         const onSubmit = () => {
             console.log('submit!')
         }
-        const resetForm = (queryFormRef: any) => {
-            // eslint-disable-next-line no-unused-expressions
-            console.log(11111111111)
-            queryFormRef.resetFields()
-        }
         return {
-            resetFormData,
-            resetForm,
+            tableData,
+            queryFormRef,
             expandMore,
+            resetFields,
             onSubmit,
             options,
             shortcuts,
