@@ -1,4 +1,5 @@
 import request, { getAxios } from '@/utils/request'
+import downloadrequest from '@/utils/download'
 import { AxiosResponse } from 'axios'
 import { ref } from 'vue'
 const api = {
@@ -65,7 +66,7 @@ export interface IClaimQueryCondtion {
 }
 
 export function exportClaimReport(reportColumn:IClaimQueryCondtion):Promise<AxiosResponse<IResponse>> {
-    return request({
+    return downloadrequest({
         url: `${api.expoertClaimReport}?time=${new Date()}`,
         method: 'post',
         data: reportColumn
