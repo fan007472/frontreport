@@ -56,21 +56,22 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response:AxiosResponse<IResponse>) => {
-    if (response.status && response.status === 200) {
-        loading.close()
-        const title = '请求成功'
-        const { data } = response
-        if (data.code === 401 || data.code === 402 || data.code === 403 || data.code === 500) {
+    let title = '请求成功'
+    const { data } = response
+    loading.close()
+    if (data.code !== 200) {
+        if (data.code === 401) {
             if (store.state.layout.token.ACCESS_TOKEN) {
                 store.commit('layout/logout')
             }
-            ElNotification({
-                title,
-                message: data.message,
-                type: 'error'
-            })
-            return Promise.reject(new Error(data.message || 'Error'))
+            title = '身份认证失败'
         }
+        ElNotification({
+            title,
+            message: data.message,
+            type: 'error'
+        })
+        return Promise.reject(new Error(data.message || 'Error'))
     }
     return response
 }, errorHandler)

@@ -174,7 +174,7 @@ const actions = {
         context.commit('getUser', userInfo)
     },
     async GenerateRoutes():Promise<void> {
-        console.log('generate router')
+        // console.log('generate router')
         const res = await getRouterList()
         const { obj } = res.data
         generatorDynamicRouter(obj)

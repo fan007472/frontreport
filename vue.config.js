@@ -5,6 +5,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 const proxyObj = {}
 proxyObj['/'] = {
     ws: false,
+    // target: 'http://47.101.183.5:8888',
     target: 'http://localhost:8888',
     changeOrigin: true,
     pathReWrite: {

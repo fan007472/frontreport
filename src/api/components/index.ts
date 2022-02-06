@@ -2,7 +2,9 @@ import request, { getAxios } from '@/utils/request'
 import { AxiosResponse } from 'axios'
 import { ref } from 'vue'
 const api = {
-    getTableList: '/getTableList'
+    getTableList: '/getTableList',
+    getTableColumn: '/Claim/ClaimQueryTableFields',
+    expoertClaimReport: '/Claim/ClaimReportExport'
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -17,7 +19,85 @@ export function getTableList(tableList: ITableList): Promise<AxiosResponse<IResp
         data: tableList
     })
 }
+export interface ITableColumn {
+    columnName: string
+    checkFlag: string
+}
+export function getTableColumn(tableName: string) : Promise<AxiosResponse<IResponse<Array<ITableColumn>>>> {
+    return request({
+        url: api.getTableColumn,
+        method: 'get',
+        params: { tableName: tableName }
+    })
+}
+export interface Option {
+    value: string
+    desc: string
+    disabled: boolean
+}
+export interface IClaimQueryCondtion {
+    queryColumn: string[],
+    queryForm: {
+        claimno: string,
+        pcyno: string,
+        apctnm: string
+        isrdnm: string,
+        clmstatus: string[],
+        branch: string,
+        ria_dir: string,
+        clm_hdlr: string[],
+        line: string[],
+        rfl: string,
+        claimFlag: string[],
+        location: string,
+        broker: string,
+        accidentdate: string,
+        cat: string,
+        adjuster: string,
+        solicitor: string,
+        claimcategory: string[],
+        ria_branch: string,
+        registerdate: string[],
+        reportdate: string[],
+        closedate: string[],
+        reopendate: string[]
+    }
+}
 
+export function exportClaimReport(reportColumn:IClaimQueryCondtion):Promise<AxiosResponse<IResponse>> {
+    return request({
+        url: `${api.expoertClaimReport}?time=${new Date()}`,
+        method: 'post',
+        data: reportColumn
+    })
+}
+
+export interface ITest {
+    queryColumn: string[],
+    queryForm: {
+        claimno: string,
+        pcyno: string,
+        apctnm: string,
+        isrdnm: string,
+        clmstatus: string[],
+        branch: string,
+        ria_dir: string,
+        clm_hdlr: string[],
+        line: string[],
+        rfl: string,
+        claimFlag: string,
+        location: string,
+        broker: string,
+    }
+}
+
+export function exportClaimReport01(reportColumn:ITest):Promise<AxiosResponse<IResponse>> {
+    return request({
+        url: api.expoertClaimReport,
+        method: 'post',
+        data: reportColumn
+    })
+}
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getWeatherInfoAxios<T>(surl: string) {
     const result = ref<IResponse<T>|null>(null)
