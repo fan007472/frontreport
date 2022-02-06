@@ -48,8 +48,17 @@ downloadrequest.interceptors.request.use(config => {
 downloadrequest.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     loading.close()
     const heads = response.headers
-    const reg = RegExp('/applicaton\/json/')
-    if (!heads['content-type'].match(reg)) {
+    console.log(heads['content-type'].split(';')[0])
+    console.log(heads['content-type'].split(';')[0] === 'applicaton/json')
+    if (heads['content-type'].split(';')[0] === 'applicaton/json') {
+        console.log('===================1')
+        ElNotification({
+            title: '下载失败！',
+            message: response.data.message,
+            type: 'error'
+        })
+    } else {
+        console.log('===================2')
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const filedownload = require('js-file-download')
         let filename = heads['content-disposition'].split(';')[1].split('filename=')[1]
