@@ -22,6 +22,7 @@ export function getTableList(tableList: ITableList): Promise<AxiosResponse<IResp
 }
 export interface ITableColumn {
     columnName: string
+    columnDesca: string
     checkFlag: string
 }
 export function getTableColumn(tableName: string) : Promise<AxiosResponse<IResponse<Array<ITableColumn>>>> {

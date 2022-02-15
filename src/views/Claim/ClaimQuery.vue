@@ -2,7 +2,7 @@
     <div>
         <el-form :inline='true' :model='queryForm' ref='queryFormRef'>
             <el-form-item label='被保险人' prop='isrdnm'>
-                <el-input v-model='queryForm.isrdnm'></el-input>
+                <el-input v-model='queryForm.isrdnm' clearable></el-input>
             </el-form-item>
             <el-form-item label='案件状态' prop='clmstatus'>
                 <el-select v-model='queryForm.clmstatus' multiple clearable placeholder='请选择'>
@@ -301,12 +301,12 @@ export default defineComponent({
         }
         const generateColumn = async() => {
             let columnList:Array<ITableColumn> = []
-            const res = await getTableColumn('dwi_t_claimmain')
+            const res = await getTableColumn('ClaimEnquery')
             columnList = res.data.obj
             columnList.forEach((v:any) => {
                 columndata.value.push({
                     value: v.columnName,
-                    desc: v.columnName,
+                    desc: v.columnDesc,
                     disabled: false
                 })
                 if (v.checkFlag === '1') {

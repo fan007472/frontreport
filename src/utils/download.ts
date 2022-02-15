@@ -2,6 +2,7 @@
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 import { store } from '@/store/index'
+import { utf8ByteToUnicodeStr } from './tools'
 
 const MybaseURL = ''
 
@@ -48,17 +49,16 @@ downloadrequest.interceptors.request.use(config => {
 downloadrequest.interceptors.response.use((response:AxiosResponse<IResponse>) => {
     loading.close()
     const heads = response.headers
-    console.log(heads['content-type'].split(';')[0])
-    console.log(heads['content-type'].split(';')[0] === 'applicaton/json')
-    if (heads['content-type'].split(';')[0] === 'applicaton/json') {
-        console.log('===================1')
+    const svalue = heads['content-type'].split(';')[0]
+    if (svalue === 'application/json') {
+        // const remessage = ToJsonString(response.data)
+        const { message } = ToJsonString(response.data)
         ElNotification({
             title: '下载失败！',
-            message: response.data.message,
+            message: message, // response.data.message,
             type: 'error'
         })
     } else {
-        console.log('===================2')
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const filedownload = require('js-file-download')
         let filename = heads['content-disposition'].split(';')[1].split('filename=')[1]
@@ -69,10 +69,8 @@ downloadrequest.interceptors.response.use((response:AxiosResponse<IResponse>) =>
     return response
 }, errorHandler)
 
-// function ToJsonString(JsonArray) {
-//     const encodeString = String.fromCharCode.apply(null, new Uint8Array(JsonArray))
-//     const decodeString = decodeURIComponent(escape(encodeString))
-//     return JSON.parse(decodeString)
-// }
+function ToJsonString(JsonArray:unknown) {
+    return JSON.parse(utf8ByteToUnicodeStr(Array.from(new Uint8Array(JsonArray as ArrayBuffer))))
+}
 
 export default downloadrequest
