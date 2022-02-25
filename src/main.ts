@@ -6,7 +6,7 @@ import { store } from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/lib/theme-chalk/index.css'
 import 'element-plus/lib/theme-chalk/display.css'
-import locale from 'element-plus/lib/locale/lang/zh-cn'
+// import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import '@/permission'
 import 'nprogress/nprogress.css'
 import '@/assets/index.css'
@@ -21,5 +21,5 @@ console.log(process.env.NODE_ENV === 'production')
 createApp(App)
     .use(store)
     .use(router)
-    .use(ElementPlus, { locale })
+    .use(ElementPlus)
     .mount('#app')

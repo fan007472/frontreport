@@ -306,27 +306,10 @@ export default defineComponent({
     },
     setup() {
         const store = useStore()
-        const { result, loading, loaded } = getWeatherInfoAxios<IWeather>('http://wthrcdn.etouch.cn/weather_mini?city=上海')
-        // console.log(result)
-        // console.log(result.value?.Data.city)
-        // console.log(Msg)
-        // console.log(Data)
-        // let WeatherInfo = getWeatherInfoAxios('上海').then(res => {
-        //     if (res.status === 1000) {
-        //         const weatherDetail: IWeather = (res.data as unknown) as IWeather
-        //         // eslint-disable-next-line prefer-destructuring
-        //         const i1:IweatherD1 = weatherDetail.forecast[0]
-        //         WeatherInfo = `${weatherDetail.city} ${i1.high} ${i1.low} ${i1.date} ${i1.fengli} ${i1.fengxiang}`
-        //         console.log(WeatherInfo)
-        //     } else {
-        //         WeatherInfo = '未能取到天气信息'
-        //         console.log(WeatherInfo)
-        //     }
-        // })
+        const { result, loaded } = getWeatherInfoAxios<IWeather>('http://wthrcdn.etouch.cn/weather_mini?city=上海')
         return {
             people,
             result,
-            loading,
             loaded,
             // WeatherInfo,
             user: store.state.layout.userInfo,

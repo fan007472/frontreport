@@ -9,6 +9,8 @@ export async function sleep(time:number):Promise<void> {
         setTimeout(() => resolve, time)
     })
 }
+
+
 /**
  * 金额格式化
  * @param num 金额
