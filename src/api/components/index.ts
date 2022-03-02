@@ -5,10 +5,12 @@ import { ref } from 'vue'
 const api = {
     getTableList: '/getTableList',
     getTableColumn: '/Claim/ClaimQueryTableFields',
-    expoertClaimReport: '/Claim/ClaimReportExport',
+    exportClaimReport: '/Claim/ClaimReportExport',
     getLobList: '/Claim/GetLob',
     getHandler: '/Claim/GetSISClaimHandler',
-    getClaimInfo: '/Claim/ClaimInfoQuery'
+    getClaimInfo: '/Claim/ClaimInfoQuery',
+    exportClaimPaymentReport: '/Claim/ClaimPaymentReport',
+    exportClaimChequeReport: '/Claim/ClaimRecoveryReport'
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -73,7 +75,7 @@ export interface IClaimQueryCondtion {
 
 export function exportClaimReport(reportColumn: IClaimQueryCondtion): Promise<AxiosResponse<IResponse>> {
     return downloadrequest({
-        url: `${api.expoertClaimReport}?time=${new Date()}`,
+        url: `${api.exportClaimReport}?time=${new Date()}`,
         method: 'post',
         data: reportColumn
     })
@@ -122,5 +124,23 @@ export function getHandler(): Promise<AxiosResponse<IResponse>> {
     return request({
         url: api.getHandler,
         method: 'get'
+    })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function exportClaimPaymentReport(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return downloadrequest({
+        url: `${api.exportClaimPaymentReport}?time=${new Date()}`,
+        method: 'post',
+        data: queryForm
+    })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function exportClaimChequeReport(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return downloadrequest({
+        url: `${api.exportClaimChequeReport}?time=${new Date()}`,
+        method: 'post',
+        data: queryForm
     })
 }

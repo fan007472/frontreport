@@ -27,9 +27,9 @@
             </el-form-item>
             <el-form-item label='RC/NRC' prop='rfl'>
                 <el-select v-model='queryForm.rfl' clearable placeholder='请选择'>
-                    <el-option value='RC' label='RC' />
-                    <el-option value='NRC_PC' label='NRC-PC' />
-                    <el-option value='NRC_IP' label='NRC-NonIP' />
+                    <el-option value='0' label='RC' />
+                    <el-option value='1' label='NRC-NonIP' />
+                    <el-option value='2' label='NRC-PC' />
                 </el-select>
             </el-form-item>
             <el-form-item label='立案期间' prop='registerdate'>
@@ -66,18 +66,18 @@
                     <el-input v-model='queryForm.pcyno' clearable></el-input>
                 </el-form-item>
                 <el-form-item label='投保人' prop='apctnm'>
-                    <el-input v-model='queryForm.apctnm'></el-input>
+                    <el-input v-model='queryForm.apctnm' clearable></el-input>
                 </el-form-item>
                 <el-form-item label='准备金标识' prop='claimFlag'>
-                    <el-select v-model='queryForm.claimFlag' multiple placeholder='请选择'>
-                        <el-option v-for='item in reserveFlag' :key='item.value' :label='item.label' :value='item.value'> </el-option>
+                    <el-select v-model='queryForm.claimFlag' multiple clearable placeholder='请选择'>
+                        <el-option v-for='item in reserveFlag' :key='item.value' :label='item.label' :value='item.value'></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label='巨灾代码' prop='claimcategory'>
-                    <el-input v-model='queryForm.cat'></el-input>
+                <el-form-item label='巨灾' prop='claimcategory'>
+                    <el-input v-model='queryForm.cat' clearable></el-input>
                 </el-form-item>
                 <el-form-item label='再保公司' prop='ria_branch'>
-                    <el-input v-model='queryForm.ria_branch'></el-input>
+                    <el-input v-model='queryForm.ria_branch' clearable></el-input>
                 </el-form-item>
                 <el-form-item label='事故期间' prop='accidentdate'>
                     <el-date-picker
@@ -172,8 +172,9 @@
             >
             </el-pagination>
         </div>
-        <el-dialog v-model='centerDialogVisible' title='报表字段选择' width='55%' center>
-            <div class='m_el_transfer'>
+        <div class='m_el_transfer'>
+            <el-dialog v-model='centerDialogVisible' title='报表字段选择' center :width='screenWidth'>
+                <!-- <div class='m_el_transfer w-1/2 md:w-2/3'> -->
                 <el-transfer
                     v-model='queryColumn'
                     filterable
@@ -189,19 +190,19 @@
                     :data='columndata'
                 >
                 </el-transfer>
-            </div>
-            <template #footer>
-                <span class='dialog-footer'>
-                    <el-button @click='centerDialogVisible = false'>取消</el-button>
-                    <el-button type='primary' @click='exportReportColumn({ queryColumn, queryForm })'>导出报表</el-button>
-                </span>
-            </template>
-        </el-dialog>
+                <template #footer>
+                    <span class='dialog-footer'>
+                        <el-button @click='centerDialogVisible = false'>取消</el-button>
+                        <el-button type='primary' @click='exportReportColumn({ queryColumn, queryForm })'>导出报表</el-button>
+                    </span>
+                </template>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, unref } from 'vue'
+import { defineComponent, onMounted, ref, unref, watchEffect } from 'vue'
 import type { ElForm } from 'element-plus'
 import { resetFields } from '@/utils/formExtend'
 import { getTableColumn, ITableColumn, exportClaimReport, IClaimQueryCondtion, IDictionary, getLob, getHandler, getClaimInfo, IQueryForm } from '@/api/components/index'
@@ -322,6 +323,7 @@ export default defineComponent({
         const tableData = ref([])
         const columndata = ref<transferItem[]>([])
         const queryColumn = ref<string[]>([])
+        const screenWidth = ref('50%')
         const onSubmit = async(queryForm: IQueryForm) => {
             const form = unref(queryForm)
             if (!form) return
@@ -396,7 +398,17 @@ export default defineComponent({
             if (cellValue.trim() === 'D') return '直保'
             if (cellValue.trim() === 'R') return '再保'
         }
+        watchEffect(() => {
+            if (document.body.clientWidth < 1280) {
+                screenWidth.value = '90%'
+                console.log(screenWidth)
+            } else {
+                screenWidth.value = '50%'
+                console.log(screenWidth)
+            }
+        })
         return {
+            screenWidth,
             FormateReInsure,
             FormateClaimStatus,
             FormateAmount,
