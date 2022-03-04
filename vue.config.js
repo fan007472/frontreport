@@ -3,14 +3,15 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
 const proxyObj = {}
-proxyObj['/'] = {
+proxyObj['/api'] = {
     ws: false,
     // target: 'http://47.101.183.5:8888',
-    target: 'http://localhost:8888',
-    changeOrigin: true,
-    pathReWrite: {
-        '^/': '/'
-    }
+    // target: 'http://10.242.192.160:8888',
+    target: 'http://127.0.0.1:8888',
+    pathRewrite: {
+        '/api': ''
+    },
+    changeOrigin: true
 }
 
 function resolve(dir) {
@@ -40,8 +41,8 @@ module.exports = {
                 // 生产环境自动删除console
                 new UglifyJsPlugin({
                     uglifyOptions: {
+                        warnings: false,
                         compress: {
-                            warnings: false,
                             drop_debugger: true,
                             drop_console: true
                         }

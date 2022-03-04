@@ -3,7 +3,7 @@ import { store } from '@/store/index'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { ElLoading, ElNotification } from 'element-plus'
 import QS from 'qs'
-const MybaseURL = ''
+const MybaseURL = '/api'
 
 let loading:{close():void}
 // 创建 axios 实例
