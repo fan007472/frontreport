@@ -6,3 +6,12 @@ export interface IRenderTableList {
     tag: ITag
     amt: number
 }
+
+export interface IStockBasicList {
+    tsCode: string
+    name: string
+    area: string
+    industry: string
+    market: string
+    tsMarket: string
+}
