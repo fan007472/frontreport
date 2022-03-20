@@ -4,7 +4,7 @@ import { ElLoading, ElNotification } from 'element-plus'
 import { store } from '@/store/index'
 import { utf8ByteToUnicodeStr } from './tools'
 
-const MybaseURL = ''
+const MybaseURL = '/api'
 
 let loading:{close():void}
 const downloadrequest = axios.create({

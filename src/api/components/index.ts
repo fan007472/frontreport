@@ -5,8 +5,17 @@ import { ref } from 'vue'
 const api = {
     getTableList: '/getTableList',
     getTableColumn: '/Claim/ClaimQueryTableFields',
+<<<<<<< HEAD
     expoertClaimReport: '/Claim/ClaimReportExport',
     getStockBasicInfo: '/Claim/StockInfoQuery'
+=======
+    exportClaimReport: '/Claim/ClaimReportExport',
+    getLobList: '/Claim/GetLob',
+    getHandler: '/Claim/GetSISClaimHandler',
+    getClaimInfo: '/Claim/ClaimInfoQuery',
+    exportClaimPaymentReport: '/Claim/ClaimPaymentReport',
+    exportClaimChequeReport: '/Claim/ClaimRecoveryReport'
+>>>>>>> a794e69299ade160930829631b2f147fc426adf3
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -26,94 +35,81 @@ export interface ITableColumn {
     columnDesca: string
     checkFlag: string
 }
-export function getTableColumn(tableName: string) : Promise<AxiosResponse<IResponse<Array<ITableColumn>>>> {
+export interface IDictionary {
+    keyValue: string
+    keyDesc: string
+}
+export function getTableColumn(tableName: string): Promise<AxiosResponse<IResponse<Array<ITableColumn>>>> {
     return request({
         url: api.getTableColumn,
         method: 'get',
         params: { tableName: tableName }
     })
 }
-export interface Option {
-    value: string
-    desc: string
-    disabled: boolean
+
+export interface IQueryForm {
+    claimno: string
+    pcyno: string
+    apctnm: string
+    isrdnm: string
+    clmstatus: string[]
+    branch: string
+    ria_dir: string
+    clm_hdlr: string[]
+    line: string[]
+    rfl: string
+    claimFlag: string[]
+    location: string
+    broker: string
+    accidentdate: string[]
+    cat: string
+    adjuster: string
+    solicitor: string
+    claimcategory: string[]
+    ria_branch: string
+    registerdate: string[]
+    reportdate: string[]
+    closedate: string[]
+    reopendate: string[]
 }
+
 export interface IClaimQueryCondtion {
-    queryColumn: string[],
-    queryForm: {
-        claimno: string,
-        pcyno: string,
-        apctnm: string
-        isrdnm: string,
-        clmstatus: string[],
-        branch: string,
-        ria_dir: string,
-        clm_hdlr: string[],
-        line: string[],
-        rfl: string,
-        claimFlag: string[],
-        location: string,
-        broker: string,
-        accidentdate: string,
-        cat: string,
-        adjuster: string,
-        solicitor: string,
-        claimcategory: string[],
-        ria_branch: string,
-        registerdate: string[],
-        reportdate: string[],
-        closedate: string[],
-        reopendate: string[]
-    }
+    queryColumn: string[]
+    queryForm: IQueryForm
 }
 
-export function exportClaimReport(reportColumn:IClaimQueryCondtion):Promise<AxiosResponse<IResponse>> {
+export function exportClaimReport(reportColumn: IClaimQueryCondtion): Promise<AxiosResponse<IResponse>> {
     return downloadrequest({
-        url: `${api.expoertClaimReport}?time=${new Date()}`,
+        url: `${api.exportClaimReport}?time=${new Date()}`,
         method: 'post',
         data: reportColumn
     })
 }
 
-export interface ITest {
-    queryColumn: string[],
-    queryForm: {
-        claimno: string,
-        pcyno: string,
-        apctnm: string,
-        isrdnm: string,
-        clmstatus: string[],
-        branch: string,
-        ria_dir: string,
-        clm_hdlr: string[],
-        line: string[],
-        rfl: string,
-        claimFlag: string,
-        location: string,
-        broker: string,
-    }
-}
-
-export function exportClaimReport01(reportColumn:ITest):Promise<AxiosResponse<IResponse>> {
+export function getClaimInfo(queryForm: IQueryForm, currentPage:number, pageSize:number): Promise<AxiosResponse<IResponse>> {
     return request({
-        url: api.expoertClaimReport,
+        url: api.getClaimInfo,
         method: 'post',
-        data: reportColumn
+        data: queryForm,
+        params: { currentPage, pageSize }
     })
 }
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getWeatherInfoAxios<T>(surl: string) {
-    const result = ref<IResponse<T>|null>(null)
+    const result = ref<IResponse<T> | null>(null)
     const loading = ref(true)
     const loaded = ref(false)
     const error = ref(null)
-    getAxios(surl, {}).then(res => {
-        result.value = res.data
-        loaded.value = true
-        loading.value = false
-    }).catch((e) => {
-        error.value = e
-    })
+    getAxios(surl, {})
+        .then(res => {
+            result.value = res.data
+            loaded.value = true
+            loading.value = false
+        })
+        .catch(e => {
+            error.value = e
+        })
     return {
         result,
         loading,
@@ -122,6 +118,7 @@ export function getWeatherInfoAxios<T>(surl: string) {
     }
 }
 
+<<<<<<< HEAD
 export interface IStockQueryCondition{
     stock_name: string,
     ts_code: string,
@@ -132,6 +129,35 @@ export interface IStockQueryCondition{
 export function getStockBasicInfo(queryForm:IStockQueryCondition): Promise<AxiosResponse<IResponse>> {
     return request({
         url: api.getStockBasicInfo,
+=======
+export function getLob(): Promise<AxiosResponse<IResponse<Array<IDictionary>>>> {
+    return request({
+        url: api.getLobList,
+        method: 'get'
+    })
+}
+
+export function getHandler(): Promise<AxiosResponse<IResponse>> {
+    return request({
+        url: api.getHandler,
+        method: 'get'
+    })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function exportClaimPaymentReport(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return downloadrequest({
+        url: `${api.exportClaimPaymentReport}?time=${new Date()}`,
+        method: 'post',
+        data: queryForm
+    })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function exportClaimChequeReport(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return downloadrequest({
+        url: `${api.exportClaimChequeReport}?time=${new Date()}`,
+>>>>>>> a794e69299ade160930829631b2f147fc426adf3
         method: 'post',
         data: queryForm
     })
