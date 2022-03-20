@@ -5,17 +5,12 @@ import { ref } from 'vue'
 const api = {
     getTableList: '/getTableList',
     getTableColumn: '/Claim/ClaimQueryTableFields',
-<<<<<<< HEAD
-    expoertClaimReport: '/Claim/ClaimReportExport',
-    getStockBasicInfo: '/Claim/StockInfoQuery'
-=======
     exportClaimReport: '/Claim/ClaimReportExport',
     getLobList: '/Claim/GetLob',
     getHandler: '/Claim/GetSISClaimHandler',
     getClaimInfo: '/Claim/ClaimInfoQuery',
     exportClaimPaymentReport: '/Claim/ClaimPaymentReport',
     exportClaimChequeReport: '/Claim/ClaimRecoveryReport'
->>>>>>> a794e69299ade160930829631b2f147fc426adf3
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -118,18 +113,6 @@ export function getWeatherInfoAxios<T>(surl: string) {
     }
 }
 
-<<<<<<< HEAD
-export interface IStockQueryCondition{
-    stock_name: string,
-    ts_code: string,
-    industy: string,
-    market: string
-}
-
-export function getStockBasicInfo(queryForm:IStockQueryCondition): Promise<AxiosResponse<IResponse>> {
-    return request({
-        url: api.getStockBasicInfo,
-=======
 export function getLob(): Promise<AxiosResponse<IResponse<Array<IDictionary>>>> {
     return request({
         url: api.getLobList,
@@ -157,7 +140,6 @@ export function exportClaimPaymentReport(queryForm:any): Promise<AxiosResponse<I
 export function exportClaimChequeReport(queryForm:any): Promise<AxiosResponse<IResponse>> {
     return downloadrequest({
         url: `${api.exportClaimChequeReport}?time=${new Date()}`,
->>>>>>> a794e69299ade160930829631b2f147fc426adf3
         method: 'post',
         data: queryForm
     })

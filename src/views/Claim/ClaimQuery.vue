@@ -20,8 +20,6 @@
                     <el-option v-for='item in handler' :key='item.value' :label='item.label' :value='item.value'> </el-option>
                 </el-select>
             </el-form-item>
-<<<<<<< HEAD
-=======
             <el-form-item label='产品线' prop='line'>
                 <el-select v-model='queryForm.line' multiple clearable placeholder='请选择'>
                     <el-option v-for='item in lob' :key='item.value' :label='item.label' :value='item.value'> </el-option>
@@ -63,7 +61,6 @@
             <el-form-item label='赔案号' prop='claimno'>
                 <el-input v-model='queryForm.claimno' clearable></el-input>
             </el-form-item>
->>>>>>> a794e69299ade160930829631b2f147fc426adf3
             <template v-if='expandMore'>
                 <el-form-item label='保单号' prop='pcyno'>
                     <el-input v-model='queryForm.pcyno' clearable></el-input>
@@ -389,9 +386,6 @@ export default defineComponent({
             exportClaimReport(queryCondition)
             centerDialogVisible.value = false
         }
-<<<<<<< HEAD
-        // onMounted(generateColumn)
-=======
         onMounted(initial)
         const FormateAmount = (row: any, column: any, cellValue: any) => {
             return format(cellValue)
@@ -413,7 +407,6 @@ export default defineComponent({
                 console.log(screenWidth)
             }
         })
->>>>>>> a794e69299ade160930829631b2f147fc426adf3
         return {
             screenWidth,
             FormateReInsure,
