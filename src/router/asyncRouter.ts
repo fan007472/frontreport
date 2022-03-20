@@ -13,7 +13,7 @@ const components:IObject<() => Promise<typeof import('*.vue')>> = {
 files.keys().forEach(file => {
     const nameMatch = file.match(/^\.\/(.*)\.vue/)
     if (!nameMatch) return
-    if (nameMatch[1].includes('Dashboard') || nameMatch[1].includes('User') || nameMatch[1].includes('ErrorPage')) return
+    if (nameMatch[1].includes('Dashboard') || nameMatch[1].includes('ErrorPage')) return
     // 如果页面以Index命名，则使用父文件夹作为name
     const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
     let name = indexMatch ? indexMatch[1] : nameMatch[1];

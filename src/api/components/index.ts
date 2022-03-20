@@ -10,7 +10,8 @@ const api = {
     getHandler: '/Claim/GetSISClaimHandler',
     getClaimInfo: '/Claim/ClaimInfoQuery',
     exportClaimPaymentReport: '/Claim/ClaimPaymentReport',
-    exportClaimChequeReport: '/Claim/ClaimRecoveryReport'
+    exportClaimChequeReport: '/Claim/ClaimRecoveryReport',
+    getInsuredList: '/Front/GetInsuredList'
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -142,5 +143,31 @@ export function exportClaimChequeReport(queryForm:any): Promise<AxiosResponse<IR
         url: `${api.exportClaimChequeReport}?time=${new Date()}`,
         method: 'post',
         data: queryForm
+    })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function queryLossRun(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return downloadrequest({
+        url: `${api.exportClaimChequeReport}?time=${new Date()}`,
+        method: 'post',
+        data: queryForm
+    })
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function exportLossRun(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return downloadrequest({
+        url: `${api.exportClaimChequeReport}?time=${new Date()}`,
+        method: 'post',
+        data: queryForm
+    })
+}
+
+export function getInsuredList(isrd_nm:string): Promise<AxiosResponse<IResponse>> {
+    return request({
+        url: `${api.getInsuredList}?time=${new Date()}`,
+        method: 'get',
+        params: isrd_nm
     })
 }
