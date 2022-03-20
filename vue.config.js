@@ -40,8 +40,8 @@ module.exports = {
                 // 生产环境自动删除console
                 new UglifyJsPlugin({
                     uglifyOptions: {
+                        warnings: false,
                         compress: {
-                            warnings: false,
                             drop_debugger: true,
                             drop_console: true
                         }

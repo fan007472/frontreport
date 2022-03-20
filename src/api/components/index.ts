@@ -5,7 +5,8 @@ import { ref } from 'vue'
 const api = {
     getTableList: '/getTableList',
     getTableColumn: '/Claim/ClaimQueryTableFields',
-    expoertClaimReport: '/Claim/ClaimReportExport'
+    expoertClaimReport: '/Claim/ClaimReportExport',
+    getStockBasicInfo: '/Claim/StockInfoQuery'
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -119,4 +120,19 @@ export function getWeatherInfoAxios<T>(surl: string) {
         loaded,
         error
     }
+}
+
+export interface IStockQueryCondition{
+    stock_name: string,
+    ts_code: string,
+    industy: string,
+    market: string
+}
+
+export function getStockBasicInfo(queryForm:IStockQueryCondition): Promise<AxiosResponse<IResponse>> {
+    return request({
+        url: api.getStockBasicInfo,
+        method: 'post',
+        data: queryForm
+    })
 }

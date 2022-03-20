@@ -32,50 +32,6 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label='产品线' prop='line'>
-                <el-select v-model='queryForm.line' multiple clearable placeholder='请选择'>
-                    <el-option
-                        v-for='item in options'
-                        :key='item.value'
-                        :label='item.label'
-                        :value='item.value'
-                    >
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label='RC/NRC' prop='rfl'>
-                <el-select v-model='queryForm.rfl' clearable placeholder='请选择'>
-                    <el-option value='RC' label='RC'/>
-                    <el-option value='NRC' label='Non RC'/>
-                </el-select>
-            </el-form-item>
-            <el-form-item label='立案期间' prop='registerdate'>
-                <el-date-picker
-                    v-model='queryForm.registerdate'
-                    type='daterange'
-                    unlink-panels
-                    range-separator='-'
-                    start-placeholder='Start date'
-                    end-placeholder='End date'
-                    format='YYYY-MM-DD'
-                    value-format='YYYY-MM-DD'
-                    :shortcuts='shortcuts'
-                />
-            </el-form-item>
-            <el-form-item label='关案期间' prop='closedate'>
-                <el-date-picker
-                    v-model='queryForm.closedate'
-                    type='daterange'
-                    unlink-panels
-                    range-separator='-'
-                    start-placeholder='Start date'
-                    end-placeholder='End date'
-                    :shortcuts='shortcuts'
-                />
-            </el-form-item>
-            <el-form-item label='赔案号' prop='claimno'>
-                <el-input v-model='queryForm.claimno' clearable></el-input>
-            </el-form-item>
             <template v-if='expandMore'>
                 <el-form-item label='保单号' prop='pcyno'>
                     <el-input v-model='queryForm.pcyno' clearable></el-input>
@@ -319,7 +275,7 @@ export default defineComponent({
             exportClaimReport(queryCondition)
             centerDialogVisible.value = false
         }
-        onMounted(generateColumn)
+        // onMounted(generateColumn)
         return {
             columndata,
             queryColumn,

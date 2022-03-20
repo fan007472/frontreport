@@ -1,135 +1,63 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 <template>
     <div style='text-align: center'>
-        <el-form :model='queryForm'>
-            <el-form-item label='1' prop='claimno'>
-                <el-input v-model='queryForm.claimno'></el-input>
+        <el-form :model='queryForm' :inline='true' ref='queryFormRef'>
+            <el-form-item label='股票名称' prop='stock_name'>
+                <el-input v-model='queryForm.stock_name'></el-input>
             </el-form-item>
-            <el-form-item label='2' prop='pcyno'>
-                <el-input v-model='queryForm.pcyno'></el-input>
+            <el-form-item label='股票代码' prop='ts_code'>
+                <el-input v-model='queryForm.ts_code'></el-input>
             </el-form-item>
-            <el-form-item label='3' prop='apctnm'>
-                <el-input v-model='queryForm.apctnm'></el-input>
+            <el-form-item label='行业' prop='industy'>
+                <el-input v-model='queryForm.industy'></el-input>
             </el-form-item>
-            <el-form-item label='出单公司' prop='branch'>
-                <el-select v-model='queryForm.branch' clearable placeholder='请选择'>
-                    <el-option value='ZBJ' label='北京分公司'/>
-                    <el-option value='ZSH' label='上海分公司'/>
-                    <el-option value='ZGD' label='广州分公司'/>
-                </el-select>
+            <el-form-item label='市场' prop='market'>
+                <el-input v-model='queryForm.market'></el-input>
             </el-form-item>
-            <el-form-item label='立案期间' prop='registerdate'>
-                <el-date-picker
-                    v-model='queryForm.registerdate'
-                    type='daterange'
-                    unlink-panels
-                    range-separator='-'
-                    start-placeholder='Start date'
-                    end-placeholder='End date'
-                    format='YYYY-MM-DD'
-                    value-format='YYYY-MM-DD'
-                    :shortcuts='shortcuts'
-                />
-            </el-form-item>
-            <el-button @click='exportReportColumn({queryColumn,queryForm})'>Test</el-button>
+            <el-button type='primary' @click='queryStockBasicInfo(queryForm)'>查询</el-button>
+            <el-button type='warning' @click='resetFields(queryFormRef)' icon='el-icon-refresh'>清除</el-button>
         </el-form>
+        <el-table :data='tableData' stripe style='width: 100%'>
+            <el-table-column prop='tsCode' label='代码' width='180' />
+            <el-table-column prop='name' label='名称' width='180' />
+            <el-table-column prop='industry' label='行业' />
+        </el-table>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
-import { IClaimQueryCondtion, exportClaimReport } from '@/api/components/index'
+import { defineComponent, ref } from 'vue'
+import { resetFields } from '@/utils/formExtend'
+import type { ElForm } from 'element-plus'
+import type { IStockBasicList } from '@/type/TableSearchTest'
+import { getStockBasicInfo } from '@/api/components/index'
 export default defineComponent({
     name: 'ClaimCheque',
     setup() {
-        const queryColumn = ref<string[]>([
-            'ADJUSTEND',
-            'ADJUSTER',
-            'ADJUSTSTART',
-            'AGGREMENTDATE',
-            'APCTID',
-            'APCTNAME',
-            'BRANCHCODECLAIM',
-            'BRANCHCODEPOLICY',
-            'BSCTYPCD',
-            'BUSI_DTTM',
-            'BUSI_TYPE',
-            'CASECATEGORY',
-            'CATCODE',
-            'CHANNELCODE',
-            'CLAIMAPPLICATIONPERSON',
-            'CLAIMAPPLYDATE',
-            'CLAIMAPPROVEDATE',
-            'CLAIMCIRCSTATUS',
-            'CLAIMCONCLUSION',
-            'CLAIMFIRSTAMOUNTINDEMNITY'
-        ])
-        const value2 = ref([])
-        const options = [
-            {
-                value: 'Option1',
-                label: 'Option1'
-            },
-            {
-                value: 'Option2',
-                label: 'Option2'
-            },
-            {
-                value: 'Option3',
-                label: 'Option3'
-            },
-            {
-                value: 'Option4',
-                label: 'Option4'
-            },
-            {
-                value: 'Option5',
-                label: 'Option5'
-            }
-        ]
         const queryForm = ref({
-            claimno: '',
-            pcyno: '',
-            apctnm: '',
-            isrdnm: '',
-            clmstatus: [],
-            branch: '',
-            ria_dir: '',
-            clm_hdlr: [],
-            line: [],
-            rfl: '',
-            claimFlag: [],
-            location: '',
-            broker: '',
-            accidentdate: '',
-            cat: '',
-            adjuster: '',
-            solicitor: '',
-            claimcategory: [],
-            ria_branch: '',
-            registerdate: [],
-            reportdate: [],
-            closedate: [],
-            reopendate: []
+            stock_name: '',
+            ts_code: '',
+            industy: '',
+            market: ''
         })
-        const exportReportColumn = (reportColumn:IClaimQueryCondtion) => {
-            console.log(reportColumn.queryForm.claimno)
-            console.log(reportColumn.queryForm.registerdate)
-            exportClaimReport(reportColumn)
+        const tableData = ref<IStockBasicList[]>([])
+        const queryFormRef = ref<InstanceType<typeof ElForm>>()
+        const queryStockBasicInfo = async() => {
+            const res = await getStockBasicInfo(queryForm.value)
+            tableData.value = res.data.obj
         }
         return {
-            queryColumn,
-            value2,
-            options,
             queryForm,
-            exportReportColumn
-            // leftValue,
+            resetFields,
+            queryFormRef,
+            tableData,
+            queryStockBasicInfo
         }
     }
 })
 </script>
 
-<style lang='postcss' scoped>
+<style lang="postcss" scoped>
 .errPage-container {
     padding-top: 100px;
     width: 800px;
