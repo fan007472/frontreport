@@ -5,9 +5,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 const proxyObj = {}
 proxyObj['/api'] = {
     ws: false,
-    target: 'http://47.101.183.5:8888',
+    // target: 'http://47.101.183.5:8888',
     // target: 'http://10.242.192.160:8888',
-    // target: 'http://127.0.0.1:8888',
+    target: 'http://127.0.0.1:8888',
     pathRewrite: {
         '/api': ''
     },

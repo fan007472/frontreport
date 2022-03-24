@@ -2,11 +2,11 @@
     <div>
         <el-form :inline='true' :model='queryForm' ref='queryFormRef'>
             <el-form-item label='Insured Name' prop='isrd_nm' class='m-form-label-class'>
-                <el-input v-model='queryForm.isrd_nm' clearable @blur="getIsrdNmList"></el-input>
+                <el-input v-model='queryForm.isrd_nm' clearable @blur='getIsrdNmList'></el-input>
             </el-form-item>
             <el-form-item label='Accurate Insured Name' prop='isrd_list' class='m-form-label-class'>
                 <el-select v-model='queryForm.isrd_list' multiple clearable placeholder='请勾选被保人' :disabled='sflag'>
-                    <el-option v-for='item in isrd_list' :key='item.value' :label='item.label' :value='item.value' />
+                    <el-option v-for='item in isrd_name' :key='item.value' :label='item.label' :value='item.value' />
                 </el-select>
             </el-form-item>
             <el-form-item label='Review Date' prop='review_date'>
@@ -32,7 +32,13 @@
 <script lang='ts'>
 import { defineComponent, ref, unref } from 'vue'
 import { resetFields } from '@/utils/formExtend'
-import { exportLossRun, getInsuredList } from '@/api/components/index'
+import { exportLossRun, getInsuredList, IDictionary } from '@/api/components/index'
+
+interface ListItem {
+    value: string
+    label: string
+}
+
 export default defineComponent({
     name: 'LossRun',
     setup() {
@@ -45,9 +51,17 @@ export default defineComponent({
             rate: '',
             currency: 'CNY'
         })
+        const isrd_name = ref<ListItem[]>([])
         const getIsrdNmList = async() => {
-            const isrd_nm = queryForm.value.isrd_nm
-            const res = getInsuredList(isrd_nm)
+            const { isrd_nm } = queryForm.value
+            const res = await getInsuredList(isrd_nm)
+            const isrdList: Array<IDictionary> = res.data.obj
+            isrdList.forEach((v: IDictionary) => {
+                isrd_name.value.push({
+                    value: v.keyValue,
+                    label: v.keyDesc
+                })
+            })
         }
         const onSubmit = async() => {
             const form = unref(queryForm)
@@ -58,7 +72,8 @@ export default defineComponent({
             queryForm,
             sflag,
             resetFields,
-            onSubmit
+            onSubmit,
+            getIsrdNmList
         }
     }
 })

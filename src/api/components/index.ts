@@ -121,6 +121,14 @@ export function getLob(): Promise<AxiosResponse<IResponse<Array<IDictionary>>>> 
     })
 }
 
+export function getInsuredList(isrd_nm:string): Promise<AxiosResponse<IResponse<Array<IDictionary>>>> {
+    return request({
+        url: `${api.getInsuredList}?time=${new Date()}`,
+        method: 'get',
+        params: isrd_nm
+    })
+}
+
 export function getHandler(): Promise<AxiosResponse<IResponse>> {
     return request({
         url: api.getHandler,
@@ -164,10 +172,3 @@ export function exportLossRun(queryForm:any): Promise<AxiosResponse<IResponse>> 
     })
 }
 
-export function getInsuredList(isrd_nm:string): Promise<AxiosResponse<IResponse>> {
-    return request({
-        url: `${api.getInsuredList}?time=${new Date()}`,
-        method: 'get',
-        params: isrd_nm
-    })
-}
