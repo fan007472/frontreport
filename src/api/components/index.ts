@@ -11,7 +11,8 @@ const api = {
     getClaimInfo: '/Claim/ClaimInfoQuery',
     exportClaimPaymentReport: '/Claim/ClaimPaymentReport',
     exportClaimChequeReport: '/Claim/ClaimRecoveryReport',
-    getInsuredList: '/Front/GetInsuredList'
+    getInsuredList: '/Front/GetInsuredList',
+    getLossRun: '/Front/GetLossRun'
 }
 export type ITag = '所有' | '家' | '公司' | '学校' | '超市'
 export interface ITableList {
@@ -125,7 +126,7 @@ export function getInsuredList(isrd_nm:string): Promise<AxiosResponse<IResponse<
     return request({
         url: `${api.getInsuredList}?time=${new Date()}`,
         method: 'get',
-        params: isrd_nm
+        params: { isrd_nm }
     })
 }
 
@@ -172,3 +173,11 @@ export function exportLossRun(queryForm:any): Promise<AxiosResponse<IResponse>> 
     })
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function getLossQueryInfo(queryForm:any): Promise<AxiosResponse<IResponse>> {
+    return request({
+        url: api.getLossRun,
+        method: 'post',
+        data: queryForm
+    })
+}
