@@ -84,11 +84,6 @@
                 </template>
             </el-dialog>
         </el-form>
-        <el-table :data='tableData' stripe style='width: 100%'>
-            <el-table-column prop='tsCode' label='代码' width='180' />
-            <el-table-column prop='name' label='名称' width='180' />
-            <el-table-column prop='industry' label='行业' />
-        </el-table>
     </div>
 </template>
 

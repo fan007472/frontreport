@@ -5,19 +5,22 @@
                 <el-input v-model='queryForm.isrd_nm' clearable @blur='getIsrdNmList'></el-input>
             </el-form-item>
             <el-form-item label='Accurate Insured Name' prop='isrd_list' class='m-form-label-class'>
-                <!-- <el-select v-model='queryForm.isrd_list' multiple clearable placeholder='请勾选被保人' :disabled='sflag'>
+                <el-select v-model='queryForm.isrd_list' multiple clearable collapse-tags collapse-tags-tooltip placeholder='请勾选被保人' :disabled='sflag' class='m-select-class'>
                     <el-option v-for='item in isrd_name' :key='item.value' :label='item.label' :value='item.value' />
-                </el-select> -->
-                <el-select-v2
+                </el-select>
+                <!-- <el-select-v2
                     v-model='queryForm.isrd_list'
                     :options='isrd_name'
+                    :disabled='sflag'
                     placeholder='如果全部符合，则不需要勾选'
                     style='width: 600px'
                     clearable
                     multiple
                     collapse-tags
                     collapse-tags-tooltip
-                />
+                    @blur='testV2'
+                    @clear='testV2'
+                /> -->
             </el-form-item>
             <template v-if='expandMore'>
                 <el-form-item label='Review Date' class='m-form-label-class' prop='review_date'>
@@ -42,31 +45,37 @@
                 }}</el-button>
             </el-form-item>
         </el-form>
-        <el-table :data='tableData' size='small' :header-cell-style='tableHeadStyle'>
-            <el-table-column label=''>
-                <el-table-column prop='name' label='保单年度' width='80' />
-                <el-table-column prop='name' label='保单号' width='100' />
-                <el-table-column prop='name' label='币种' width='60' />
-                <el-table-column prop='name' label='保费' width='120' />
+        <el-divider content-position='center' class='m-driver-class'>保费和赔款为100%份额的数据</el-divider>
+        <el-table :data='tableData' size='small' :header-cell-style='tableHeadStyle' :row-style='tableDataStyle'>
+            <el-table-column label=' ' >
+                <el-table-column prop='policyyear' label='保单年度' width='70' />
+                <el-table-column prop='policyno' label='保单号' width='100' />
+                <el-table-column prop='currency' label='币种' width='45' />
+                <el-table-column prop='premium' label='保费' :formatter='FormateAmount' width='100' />
+                <el-table-column prop='policyfrom' label='保单起期' width='90' />
+                <el-table-column prop='policyend' label='保单止期' width='90' />
             </el-table-column>
             <el-table-column label='Settled'>
-                <el-table-column prop='name' label='已决赔款' width='120' />
-                <el-table-column prop='name' label='已决费用' width='120' />
-                <el-table-column prop='name' label='累计赔付' width='120' />
+                <el-table-column prop='pay_i' label='已决赔款' :formatter='FormateAmount' width='100' />
+                <el-table-column prop='pay_e' label='已决费用' :formatter='FormateAmount' width='100' />
+                <el-table-column prop='totalpaid' label='累计赔付' :formatter='FormateAmount' width='100' />
             </el-table-column>
             <el-table-column label='OutStanding Loss'>
-                <el-table-column prop='name' label='未决赔款' width='120' />
-                <el-table-column prop='name' label='未决费用' width='120' />
-                <el-table-column prop='name' label='未决合计' width='120' />
+                <el-table-column prop='ind_i' label='未决赔款' :formatter='FormateAmount' width='100' />
+                <el-table-column prop='ind_e' label='未决费用' :formatter='FormateAmount' width='100' />
+                <el-table-column prop='totalreserve' label='未决合计' :formatter='FormateAmount' width='100' />
             </el-table-column>
             <el-table-column label='Loss Total'>
-                <el-table-column prop='name' label='Total Loss' width='100' />
+                <el-table-column prop='totalloss' label='Total Loss' :formatter='FormateAmount' width='80' />
             </el-table-column>
-            <el-table-column label=''>
-                <el-table-column prop='state' label='LossRatio' width='120' />
-                <el-table-column prop='city' label='ZurichShare' width='90' />
-                <el-table-column prop='address' label='Turnover' width='100'/>
-                <el-table-column prop='zip' label='TurnoverCCY' width='110' />
+            <el-table-column label=' '>
+                <el-table-column prop='combinedlossration' label='ComLossRatio' :formatter='FormatPercentage' width='110' />
+                <el-table-column prop='zurichshare' label='ZurichShare' :formatter='FormatPercentage' width='90' />
+                <el-table-column prop='turnover' label='营业额' :formatter='FormateAmount' width='100'/>
+                <el-table-column prop='turnoverccy' label='币种' width='45' />
+                <el-table-column prop='reinsureflag' label='再保' width='60'/>
+                <el-table-column prop='claimnumber' label='案件数' width='60'/>
+                <el-table-column fixed='right' prop='tmrnm' label='渠道人员'/>
             </el-table-column>
         </el-table>
     </div>
@@ -76,6 +85,9 @@ import { defineComponent, reactive, ref, unref } from 'vue'
 import { resetFields } from '@/utils/formExtend'
 import { exportLossRun, getInsuredList, IDictionary, getLossQueryInfo } from '@/api/components/index'
 import type { ElForm } from 'element-plus'
+import { format } from '@/utils/tools'
+import { clear } from 'console'
+
 interface ListItem {
     value: string
     label: string
@@ -87,9 +99,10 @@ export default defineComponent({
         const today = new Date()
         const sflag = ref(true)
         const expandMore = ref(false)
+        const tableData = ref([])
         const queryForm = ref({
             isrd_nm: '',
-            isrd_list: '',
+            isrd_list: [],
             review_date: today,
             rate: '',
             currency: 'CNY'
@@ -97,6 +110,8 @@ export default defineComponent({
         const queryFormRef = ref<InstanceType<typeof ElForm>>()
         const isrd_name = ref<ListItem[]>([])
         const getIsrdNmList = async() => {
+            sflag.value = false
+            queryForm.value.isrd_list = []
             isrd_name.value = []
             const { isrd_nm } = queryForm.value
             const res = await getInsuredList(isrd_nm)
@@ -107,21 +122,34 @@ export default defineComponent({
                     label: v.keyDesc
                 })
             })
-            sflag.value = false
+        }
+        const FormateAmount = (row: any, column: any, cellValue: any) => {
+            if (queryForm.value.currency === 'USD') {
+                return format(cellValue, '$')
+            }
+            return format(cellValue)
+        }
+        const FormatPercentage = (row: any, column: any, cellValue: any) => {
+            return `${(cellValue * 100).toFixed(2)}%`
         }
         const onSubmit = async() => {
             const form = unref(queryForm)
             if (!form) return
             const res = await getLossQueryInfo(form)
+            tableData.value = res.data.obj
+            sflag.value = true
         }
         const downloadLossRun = async() => {
             const form = unref(queryForm)
             if (!form) return
             const res = await exportLossRun(form)
         }
+        const tableDataStyle = (rowData:any) => {
+            return 'font-weight: 400;font-size: 0.9em; font-familiy:&aposSegoe UI&apos;color:#000000'
+        }
         const tableHeadStyle = (row_index:any) => {
             const { rowIndex, columnIndex } = row_index
-            if (rowIndex === 0 && (columnIndex === 0 || columnIndex === 4)) {
+            if (rowIndex === 0 && (columnIndex === 0 || columnIndex === 6)) {
                 return 'background-color: white;'
             }
             if (rowIndex === 0 && columnIndex === 1) {
@@ -136,32 +164,34 @@ export default defineComponent({
             if (rowIndex === 0 && columnIndex === 0) {
                 return 'background-color: white;'
             }
-            if (rowIndex === 1 && columnIndex <= 3) {
+            if (rowIndex === 0 && columnIndex >= 4) {
+                return 'background-color: white;'
+            }
+            if (rowIndex === 1 && columnIndex <= 5) {
                 return 'background-color: white;font-weight: 700;font-size: 1.0em; font-familiy:&aposSegoe UI&apos;color:#000000'
             }
-            if (rowIndex === 1 && columnIndex > 3 && columnIndex <= 6) {
+            if (rowIndex === 1 && columnIndex > 5 && columnIndex <= 8) {
                 return 'background-color: #00FFFF; text-align:center; font-weight: 700;font-size: 1.0em; font-familiy:&aposSegoe UI&apos;color:#000000'
             }
-            if (rowIndex === 1 && columnIndex > 6 && columnIndex <= 9) {
+            if (rowIndex === 1 && columnIndex > 8 && columnIndex <= 11) {
                 return 'background-color: Orange; text-align:center; font-weight: 700;font-size: 1.0em; font-familiy:&aposSegoe UI&apos;color:#000000'
             }
-            if (rowIndex === 1 && columnIndex === 10) {
+            if (rowIndex === 1 && columnIndex === 12) {
                 return 'background-color: yellow; text-align:center; font-weight: 700;font-size: 1.0em; font-familiy:&aposSegoe UI&apos;color:#000000'
             }
-            if (rowIndex === 1 && columnIndex === 11) {
+            if (rowIndex === 1 && columnIndex === 13) {
                 return 'background-color: hotpink; text-align:center; font-weight: 700;font-size: 1.0em; font-familiy:&aposSegoe UI&apos;color:#000000'
             }
-            if (rowIndex === 1 && columnIndex > 11) {
+            if (rowIndex === 1 && columnIndex > 13) {
                 return 'background-color: white;color:#000000'
             }
         }
-        const tableData = reactive([{
-            name: 'Tom',
-            state: 'California',
-            city: 'Los Angeles',
-            address: 'No. 189, Grove St, Los Angeles',
-            zip: 'CA 90036'
-        }])
+        const testV2 = () => {
+            alert(1111)
+            queryForm.value.isrd_list = []
+            isrd_name.value = []
+            console.log(queryForm)
+        }
         return {
             queryForm,
             sflag,
@@ -173,7 +203,11 @@ export default defineComponent({
             queryFormRef,
             expandMore,
             tableData,
-            tableHeadStyle
+            FormateAmount,
+            FormatPercentage,
+            tableDataStyle,
+            tableHeadStyle,
+            testV2
         }
     }
 })
@@ -183,5 +217,12 @@ export default defineComponent({
     /* color: black; */
     /* font-weight: bold; */
     width: 200px;
+}
+.m-driver-class :deep() .el-divider__text {
+    color: red;
+    font-weight: 700;
+}
+.m-select-class >>> .select-trigger .el-input .el-input__inner {
+    width: 600px !important;
 }
 </style>

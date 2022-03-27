@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class='ClaimQuery'>
         <el-form :inline='true' :model='queryForm' ref='queryFormRef'>
             <el-form-item label='被保险人' prop='isrdnm'>
                 <el-input v-model='queryForm.isrdnm' clearable></el-input>
@@ -43,6 +43,7 @@
                     format='YYYY-MM-DD'
                     value-format='YYYY-MM-DD'
                     :shortcuts='shortcuts'
+                    class='m-select'
                 />
             </el-form-item>
             <el-form-item label='关案期间' prop='closedate'>
@@ -449,7 +450,6 @@ export default defineComponent({
     width: 100%;
     padding-left: 0px;
 }
-.el-select,
 .el-form-item .el-input__inner {
     width: 260px !important;
 }
