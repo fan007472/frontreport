@@ -69,9 +69,9 @@
                 <el-form-item label='投保人' prop='apctnm'>
                     <el-input v-model='queryForm.apctnm' clearable></el-input>
                 </el-form-item>
-                <el-form-item label='准备金标识' prop='claimFlag'>
-                    <el-select v-model='queryForm.claimFlag' multiple clearable placeholder='请选择'>
-                        <el-option v-for='item in reserveFlag' :key='item.value' :label='item.label' :value='item.value'></el-option>
+                <el-form-item label='案件级别' prop='claimlevel'>
+                    <el-select v-model='queryForm.claimlevel' multiple clearable placeholder='请选择'>
+                        <el-option v-for='item in claimlevel' :key='item.value' :label='item.label' :value='item.value'></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label='巨灾' prop='claimcategory'>
@@ -175,7 +175,6 @@
         </div>
         <div class='m_el_transfer'>
             <el-dialog v-model='centerDialogVisible' title='报表字段选择' center :width='screenWidth'>
-                <!-- <div class='m_el_transfer w-1/2 md:w-2/3'> -->
                 <el-transfer
                     v-model='queryColumn'
                     filterable
@@ -224,18 +223,18 @@ export default defineComponent({
     name: 'ClaimQuery',
     setup() {
         const centerDialogVisible = ref(false)
-        const reserveFlag = [
+        const claimlevel = [
             {
-                value: '1',
-                label: '1.0'
+                value: 'LARGE',
+                label: 'LARGE'
             },
             {
-                value: '2',
-                label: '2.0'
+                value: 'NIL',
+                label: 'NIL'
             },
             {
-                value: '250000',
-                label: '250000'
+                value: 'ATTR',
+                label: 'ATTR'
             }
         ]
         const claimStatus = [
@@ -430,7 +429,7 @@ export default defineComponent({
             shortcuts,
             queryForm,
             claimStatus,
-            reserveFlag,
+            claimlevel,
             lob,
             handler
         }
@@ -457,9 +456,15 @@ export default defineComponent({
     width: 300px;
     align-content: center;
 }
-.el-dialog .el-dialog__body {
+.m_el_transfer .el-dialog .el-dialog__body {
+    display: flex ;
+    justify-content: center !important;
+    align-items: center ;
+}
+
+/* .el-dialog .el-dialog__body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 </style>
