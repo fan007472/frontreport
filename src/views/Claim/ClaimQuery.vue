@@ -135,6 +135,7 @@
                     expandMore ? '更多查询条件：收起' : '更多查询条件：展开'
                 }}</el-button>
                 <el-button type='success' icon='el-icon-download' @click='centerDialogVisible = true'>报表导出</el-button>
+                <!-- <el-button type='primary'  @click='centerDialogExcelVisible=true' icon='el-icon-refresh'>按条件导出</el-button> -->
             </el-form-item>
         </el-form>
         <el-table :data='tableData' stripe border style='width: 100% align: center' max-height='560'>
@@ -198,6 +199,37 @@
                 </template>
             </el-dialog>
         </div>
+        <div class='m-dialog'>
+            <el-dialog v-model='centerDialogExcelVisible' title='按条件下载报表' center>
+                <div>
+                    <el-button type='primary' icon='el-icon-download' @click='downLoadClaimExcelTemplate'>
+                        模板下载
+                    </el-button>
+                    <el-divider>
+                        <el-icon><star-filled /></el-icon>
+                    </el-divider>
+                    <div class='m-upload'>
+                        <el-upload
+                            class='upload-demo'
+                            drag
+                            action='multiUploadAction'
+                            accept='.xlsx,.xls'
+                            :before-upload='mUpload'
+                        >
+                            <el-icon class='el-icon--upload' :size='iconSize'><upload-filled /></el-icon>
+                            <div class='el-upload__text'>
+                                Drop file here or <em>click to upload</em>
+                            </div>
+                            <template #tip>
+                                <div class='el-upload__tip'>
+                                    请上传Excel files
+                                </div>
+                            </template>
+                        </el-upload>
+                    </div>
+                </div>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -206,8 +238,8 @@ import { defineComponent, onMounted, ref, unref, watchEffect } from 'vue'
 import type { ElForm } from 'element-plus'
 import { resetFields } from '@/utils/formExtend'
 import { getTableColumn, ITableColumn, exportClaimReport, IClaimQueryCondtion, IDictionary, getLob, getHandler, getClaimInfo, IQueryForm } from '@/api/components/index'
-// import { Option } from 'element-plus/lib/el-select'
 import { format } from '@/utils/tools'
+import { ElNotification } from 'element-plus'
 
 interface ListItem {
     value: string
@@ -401,13 +433,34 @@ export default defineComponent({
         watchEffect(() => {
             if (document.body.clientWidth < 1280) {
                 screenWidth.value = '90%'
-                console.log(screenWidth)
             } else {
                 screenWidth.value = '50%'
-                console.log(screenWidth)
             }
         })
+        const downLoadClaimExcelTemplate = () => {
+            alert('1111')
+        }
+        const centerDialogExcelVisible = ref(false)
+        const mUpload = (file:any) => {
+            const fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1)
+            const sflag0 = fileExtension === 'xls'
+            const sflag1 = fileExtension === 'xlsx'
+            if (!sflag0 && !sflag1) {
+                ElNotification({
+                    title: '文件类型失败',
+                    message: '仅能上传Excel文件',
+                    type: 'error'
+                })
+            }
+        }
+        const iconSize = 100
         return {
+            iconSize,
+            mUpload,
+            ElNotification,
+            centerDialogExcelVisible,
+            centerDialogVisible,
+            downLoadClaimExcelTemplate,
             screenWidth,
             FormateReInsure,
             FormateClaimStatus,
@@ -420,7 +473,6 @@ export default defineComponent({
             columndata,
             queryColumn,
             exportReportColumn,
-            centerDialogVisible,
             tableData,
             queryFormRef,
             expandMore,
@@ -461,7 +513,16 @@ export default defineComponent({
     justify-content: center !important;
     align-items: center ;
 }
-
+.m-upload .el-upload {
+    width: 100% !important;
+}
+.m-upload .el-upload .el-upload-dragger {
+    width: 100% !important;
+}
+.m-upload .el-upload__tip {
+    font-weight: 700;
+    color: red;
+}
 /* .el-dialog .el-dialog__body {
     display: flex;
     justify-content: center;

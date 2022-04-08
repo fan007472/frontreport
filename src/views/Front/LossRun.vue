@@ -69,31 +69,6 @@
         </el-table>
         <div class='m-dialog'>
             <el-dialog v-model='centerDialogVisible' title='批量 Loss Ration 报表下载' center>
-                <div width='100%'>
-                    <!-- <el-row>
-                        <el-form class='m-form'>
-                            <el-form-item label='复数（被保人）录入：' label-width='12em'>
-                                <el-input
-                                    v-model='multi_isrd'
-                                    maxlength='1000'
-                                    :rows='3'
-                                    type='textarea'
-                                    placeholder='可输入少量多被保人，通过英文/中文半角分号【;】进行分割，导出LossRation'
-                                />
-                            </el-form-item>
-                            <template #footer>
-                                <span class='dialog-footer'>
-                                    <el-button @click='centerDialogVisible = false'>Cancel</el-button>
-                                    <el-button type='primary' @click='centerDialogVisible = false'
-                                    >Confirm</el-button
-                                    >
-                                </span>
-                            </template>
-                        </el-form>
-                    </el-row> -->
-                    <!-- <el-divider content-position='center' class='m-driver-class'>如果被保人太多，请使用模板进行批量下载</el-divider> -->
-
-                </div>
                 <div>
                     <el-button type='primary' icon='el-icon-download'>
                         模板下载
@@ -109,7 +84,7 @@
                             accept='.xlsx,.xls'
                             :before-upload='mUpload'
                         >
-                            <el-icon class='el-icon--upload' size='100'><upload-filled /></el-icon>
+                            <el-icon class='el-icon--upload' :size='iconSize'><upload-filled /></el-icon>
                             <div class='el-upload__text'>
                                 Drop file here or <em>click to upload</em>
                             </div>
@@ -148,8 +123,8 @@ export default defineComponent({
         const queryForm = ref({
             isrd_nm: '',
             isrd_list: [],
-            review_date: today,
-            rate: '',
+            review_date: '',
+            rate: '0.158695',
             currency: 'CNY'
         })
         const queryFormRef = ref<InstanceType<typeof ElForm>>()
@@ -290,7 +265,9 @@ export default defineComponent({
         const lossRunUploadAction = () => {
             alert('111111111')
         }
+        const iconSize = 100
         return {
+            iconSize,
             lossRunUploadAction,
             mUpload,
             multi_isrd,
